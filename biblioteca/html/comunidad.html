@@ -1,0 +1,2098 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Comunidad EntreHojas - Red social de lectores para compartir opiniones, reseñas y gustos literarios.">
+  <meta name="theme-color" content="#07533F">
+  <title>Comunidad de Lectores | EntreHojas</title>
+
+  <!-- Preconexión a fuentes y CDNs -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../imgs/libro-abierto.png">
+
+  <!-- Bootstrap 5.3 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Estilos propios de EntreHojas con tipografía Rubik Variable -->
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body class="bg-page">
+
+  <!-- ============================================== -->
+  <!-- 1. BARRA DE NAVEGACIÓN PRINCIPAL RESPONSIVA -->
+  <!-- ============================================== -->
+  <header class="sticky-top navbar-minimal">
+    <nav class="navbar navbar-expand-lg py-2 py-lg-3" aria-label="Navegación principal">
+      <div class="container">
+
+        <!-- Logotipo EntreHojas -->
+        <a class="navbar-brand d-flex align-items-center gap-2 logo-brand text-decoration-none" href="../index.html">
+          <img src="../imgs/libro-abierto.png" alt="Logo EntreHojas" class="logo-img" width="28" height="28">
+          <span>Entre<span class="text-accent">Hojas</span></span>
+        </a>
+
+        <!-- Buscador integrado (escritorio y tablet) -->
+        <form class="d-none d-md-flex search-minimal mx-lg-3 flex-grow-1" style="max-width: 380px;" role="search"
+          id="form-search-comunidad" onsubmit="event.preventDefault(); filtrarFeed(document.getElementById('search-feed-input').value);">
+          <div class="input-group">
+            <input type="search" id="search-feed-input" class="form-control rounded-start-pill border-end-0"
+              placeholder="Buscar publicaciones o lectores..." aria-label="Buscar en la comunidad"
+              oninput="filtrarFeed(this.value);">
+            <button class="btn btn-search rounded-end-pill px-3" type="submit" aria-label="Ejecutar búsqueda">
+              <img src="../imgs/lupa.png" alt="Buscar" class="icon-search" width="18" height="18">
+            </button>
+          </div>
+        </form>
+
+        <!-- Botón hamburguesa responsive para móviles -->
+        <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse"
+          data-bs-target="#menuComunidad" aria-controls="menuComunidad" aria-expanded="false"
+          aria-label="Abrir menú de navegación">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Menú colapsable con enlaces y acciones -->
+        <div class="collapse navbar-collapse" id="menuComunidad">
+          <!-- Buscador exclusivo para móvil dentro del menú colapsable -->
+          <div class="d-md-none my-3">
+            <form role="search" onsubmit="event.preventDefault(); filtrarFeed(this.querySelector('input').value);">
+              <div class="input-group">
+                <input type="search" class="form-control rounded-start-pill border-end-0"
+                  placeholder="Buscar publicaciones o lectores..." aria-label="Buscar en móvil"
+                  oninput="filtrarFeed(this.value);">
+                <button class="btn btn-search rounded-end-pill px-3" type="submit" aria-label="Buscar">
+                  <img src="../imgs/lupa.png" alt="Buscar" class="icon-search" width="18" height="18">
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1 my-2 my-lg-0 text-center text-lg-start">
+            <li class="nav-item">
+              <a class="nav-link" href="../index.html">Inicio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="clubs.html">Clubs</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="libros.html">Libros</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="comunidad.html">Comunidad</a>
+            </li>
+          </ul>
+
+          <!-- Perfil del usuario activo -->
+          <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-2 ms-lg-3 flex-nowrap flex-shrink-0 pt-2 pt-lg-0 mt-2 mt-lg-0">
+            <div class="user-avatar-sm rounded-circle d-flex align-items-center justify-content-center text-white fw-bold shadow-sm"
+              title="Perfil activo: Sofía Martínez">
+              SM
+            </div>
+            <span class="d-none d-xl-inline fw-semibold small text-dark">Sofía M.</span>
+          </div>
+        </div>
+
+      </div>
+    </nav>
+  </header>
+
+  <!-- ============================================== -->
+  <!-- 2. CONTENIDO PRINCIPAL (3 COLUMNAS RESPONSIVAS)-->
+  <!-- ============================================== -->
+  <main class="py-3 py-md-4">
+    <div class="container">
+      <div class="row g-3 g-lg-4">
+
+        <!-- -------------------------------------------- -->
+        <!-- COLUMNA IZQUIERDA: PERFIL DEL LECTOR        -->
+        <!-- -------------------------------------------- -->
+        <aside class="col-12 col-md-5 col-lg-4 col-xl-3">
+
+          <!-- Tarjeta de perfil completa con contenedor .card -->
+          <div class="card border shadow-sm rounded-3 bg-white mb-3 overflow-hidden">
+            <!-- Portada / Banner personalizable -->
+            <div class="profile-banner position-relative" id="profile-banner">
+              <!-- Botón flotante para cambiar el fondo de portada -->
+              <div class="dropdown position-absolute top-0 end-0 m-2">
+                <button class="btn-change-banner dropdown-toggle" type="button" id="dropdownBannerBtn"
+                  data-bs-toggle="dropdown" aria-expanded="false" title="Cambiar imagen de portada">
+                  <span aria-hidden="true">&#128247;</span>
+                  <span>Portada</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end shadow border p-2 text-xs"
+                  aria-labelledby="dropdownBannerBtn" style="min-width: 220px; border-radius: 12px;">
+                  <li>
+                    <button class="dropdown-item rounded-2 py-2 d-flex align-items-center gap-2 fw-semibold"
+                      type="button" onclick="document.getElementById('banner-file-input').click();">
+                      <span aria-hidden="true">&#128194;</span> Subir mi imagen...
+                    </button>
+                  </li>
+                  <li>
+                    <hr class="dropdown-divider my-1">
+                  </li>
+                  <li class="dropdown-header text-muted text-xs px-2 py-1">FONDOS PREDEFINIDOS</li>
+                  <li>
+                    <button class="dropdown-item rounded-2 py-1 d-flex align-items-center gap-2" type="button"
+                      onclick="cambiarFondoPreset('biblioteca');">
+                      <span aria-hidden="true">&#128218;</span> Biblioteca Cálida
+                    </button>
+                  </li>
+                  <li>
+                    <button class="dropdown-item rounded-2 py-1 d-flex align-items-center gap-2" type="button"
+                      onclick="cambiarFondoPreset('noche');">
+                      <span aria-hidden="true">&#127756;</span> Noche Estrellada
+                    </button>
+                  </li>
+                  <li>
+                    <button class="dropdown-item rounded-2 py-1 d-flex align-items-center gap-2" type="button"
+                      onclick="cambiarFondoPreset('aurora');">
+                      <span aria-hidden="true">&#10024;</span> Lavanda &amp; Oro
+                    </button>
+                  </li>
+                  <li>
+                    <hr class="dropdown-divider my-1">
+                  </li>
+                  <li>
+                    <button class="dropdown-item rounded-2 py-1 text-danger d-flex align-items-center gap-2"
+                      type="button" onclick="cambiarFondoPreset('reset');">
+                      <span aria-hidden="true">&#8634;</span> Restablecer original
+                    </button>
+                  </li>
+                </ul>
+              </div>
+              <input type="file" id="banner-file-input" accept="image/*" class="d-none"
+                onchange="subirImagenBanner(event);">
+            </div>
+
+            <!-- Cuerpo del perfil centrado y editable -->
+            <div class="card-body text-center pt-0 position-relative pb-3 px-3">
+              <div
+                class="user-avatar-lg rounded-circle mx-auto d-flex align-items-center justify-content-center text-white fw-bold shadow">
+                SM
+              </div>
+              <h1 class="h5 fw-bold mt-2 mb-1 text-dark" id="profile-display-name">Sofía Martínez</h1>
+              <p class="text-muted text-xs mb-2" id="profile-display-bio">Lectora empedernida &bull; Reseñista aficionada</p>
+              
+              <div class="d-flex align-items-center justify-content-center gap-2 mb-2 flex-wrap">
+                <span class="badge text-bg-light border text-accent px-2 py-1 rounded-pill text-xs" id="profile-display-goal">
+                  &#127891; 32 libros leídos en 2026
+                </span>
+                <button type="button" class="btn btn-sm btn-outline-minimal py-0 px-2 rounded-pill text-xs"
+                  onclick="abrirModalEditarPerfil();" title="Editar mi información de perfil">
+                  <span aria-hidden="true">&#9999;&#65039;</span> Editar perfil
+                </button>
+              </div>
+
+              <hr class="my-3">
+
+              <!-- Gustos literarios del usuario con capacidad de agregar y quitar -->
+              <div class="text-start">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="text-xs text-uppercase fw-bold text-muted">
+                    Mis Gustos Literarios
+                  </span>
+                  <button type="button" class="btn btn-sm btn-link p-0 text-accent text-decoration-none text-xs fw-bold"
+                    onclick="toggleCajaNuevoGenero();" title="Agregar un nuevo género favorito">
+                    + Agregar
+                  </button>
+                </div>
+
+                <!-- Campo para agregar nuevo género (desplegable) -->
+                <div id="caja-nuevo-genero" class="d-none mb-2">
+                  <div class="input-group input-group-sm">
+                    <input type="text" id="input-nuevo-genero" class="form-control rounded-start-pill text-xs px-2"
+                      placeholder="Nuevo género (ej: Poesía)..."
+                      onkeydown="if(event.key==='Enter'){event.preventDefault(); guardarNuevoGenero();}">
+                    <button class="btn btn-dark-minimal rounded-end-pill px-3 text-xs fw-bold" type="button"
+                      onclick="guardarNuevoGenero();">
+                      Añadir
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Lista dinámica de gustos literarios -->
+                <div class="d-flex flex-wrap gap-1 justify-content-start" id="lista-gustos-literarios">
+                  <!-- Se renderizan dinámicamente con botón eliminar -->
+                </div>
+              </div>
+
+              <hr class="my-3">
+
+              <!-- Estadísticas rápidas -->
+              <div class="d-flex justify-content-between text-start small text-muted mb-1">
+                <span>Conexiones lectoras</span>
+                <strong class="text-dark">214</strong>
+              </div>
+              <div class="d-flex justify-content-between text-start small text-muted">
+                <span>Reseñas publicadas</span>
+                <strong class="text-dark">18</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- ============================================ -->
+          <!-- ESTANTERÍA Y TRACKER VISUAL DE LECTURA       -->
+          <!-- ============================================ -->
+          <div class="card border shadow-sm rounded-3 p-3 bg-white mb-3" id="tracker-lectura-card">
+            <!-- Encabezado con selector de pestañas (sin iconos, limpio y equilibrado) -->
+            <div class="tracker-nav-pills mb-3" role="tablist">
+              <button type="button" class="tracker-pill-btn active" id="tab-btn-leyendo"
+                onclick="cambiarPestanaLectura('leyendo');" title="Actualmente leyendo">
+                <span class="tracker-tab-text">Leyendo</span>
+              </button>
+              <button type="button" class="tracker-pill-btn" id="tab-btn-finalizados"
+                onclick="cambiarPestanaLectura('finalizados');" title="Libros leídos">
+                <span class="tracker-tab-text">Leídos</span>
+                <span class="tracker-tab-count" id="badge-count-finalizados">0</span>
+              </button>
+              <button type="button" class="tracker-pill-btn" id="tab-btn-pendientes"
+                onclick="cambiarPestanaLectura('pendientes');" title="Libros por leer">
+                <span class="tracker-tab-text">Por leer</span>
+                <span class="tracker-tab-count" id="badge-count-pendientes">0</span>
+              </button>
+            </div>
+
+            <!-- Panel 1: Actualmente Leyendo (Enriquecido y visual) -->
+            <div id="panel-lectura-leyendo">
+              <div class="d-flex gap-2 align-items-center mb-2">
+                <!-- Portada 3D visual atractiva del libro -->
+                <div class="book-visual-mini cover-marron text-white" id="current-book-visual" title="Libro en curso">
+                  <div class="book-visual-spine"></div>
+                  <div class="book-visual-ribbon"></div>
+                  <div class="book-visual-emboss"></div>
+                </div>
+
+                <!-- Datos del libro actual -->
+                <div class="flex-grow-1 overflow-hidden">
+                  <strong class="d-block small text-dark text-truncate fw-bold mb-0" id="current-book-title" title="Cien Años de Soledad">Cien Años de Soledad</strong>
+                  <small class="text-muted text-xs d-block text-truncate mb-2" id="current-book-author">G. García Márquez</small>
+                  
+                  <!-- Indicadores de páginas y porcentaje -->
+                  <div class="d-flex justify-content-between align-items-center text-xs mb-1">
+                    <span id="current-book-pages-text" class="text-muted fw-medium text-nowrap">Pág. 310 de 471</span>
+                    <span class="badge badge-gold py-0 px-2 text-xs flex-shrink-0" id="current-book-percent">65%</span>
+                  </div>
+
+                  <!-- Barra de progreso atractiva con brillo dorado -->
+                  <div class="progress" style="height: 6px; background-color: rgba(196, 174, 244, 0.35); border-radius: 50rem;">
+                    <div class="progress-bar progress-bar-glow rounded-pill" id="current-book-progressbar" style="width: 65%;"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Acciones del libro actual (limpias sin iconos) -->
+              <div class="pt-2 border-top mt-2">
+                <div class="d-grid gap-2">
+                  <button type="button" class="btn btn-sm btn-dark-minimal py-1 px-2 text-xs fw-semibold"
+                    onclick="abrirModalActualizarPaginas();">
+                    Actualizar avance
+                  </button>
+                  <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-sm btn-outline-minimal flex-grow-1 py-1 px-2 text-xs text-nowrap"
+                      onclick="marcarLibroActualComoFinalizado();" title="Marcar como terminado">
+                      Terminé de leerlo
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-minimal py-1 px-3 text-xs text-nowrap"
+                      onclick="abrirModalCambiarLibroActual();" title="Cambiar a otro libro">
+                      Cambiar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Panel 2: Libros Finalizados -->
+            <div id="panel-lectura-finalizados" class="d-none">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <small class="text-muted text-xs fw-bold text-uppercase">Libros que has completado</small>
+                <button type="button" class="btn btn-sm btn-link p-0 text-accent text-decoration-none text-xs fw-bold"
+                  onclick="abrirModalAgregarLibro('finalizado');">
+                  + Registrar libro
+                </button>
+              </div>
+              <div class="d-flex flex-column gap-2" id="lista-libros-finalizados">
+                <!-- Libros finalizados renderizados dinámicamente -->
+              </div>
+            </div>
+
+            <!-- Panel 3: Libros Pendientes (Quiero leer después) -->
+            <div id="panel-lectura-pendientes" class="d-none">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <small class="text-muted text-xs fw-bold text-uppercase">Lecturas pendientes</small>
+                <button type="button" class="btn btn-sm btn-link p-0 text-accent text-decoration-none text-xs fw-bold"
+                  onclick="abrirModalAgregarLibro('pendiente');">
+                  + Añadir a la lista
+                </button>
+              </div>
+              <div class="d-flex flex-column gap-2" id="lista-libros-pendientes">
+                <!-- Libros pendientes renderizados dinámicamente -->
+              </div>
+            </div>
+
+          </div>
+
+        </aside>
+
+        <!-- -------------------------------------------- -->
+        <!-- COLUMNA CENTRAL: FEED SOCIAL DE LECTORES    -->
+        <!-- -------------------------------------------- -->
+        <section class="col-12 col-md-7 col-lg-5 col-xl-6">
+
+          <!-- Caja para crear publicación -->
+          <div class="card border shadow-sm rounded-3 p-3 bg-white mb-4">
+            <div class="d-flex gap-2 align-items-center mb-3">
+              <div class="user-avatar-sm rounded-circle d-flex align-items-center justify-content-center text-white fw-bold flex-shrink-0">
+                SM
+              </div>
+              <input type="text" id="post-input" class="form-control rounded-pill bg-light border-0 px-3 small"
+                placeholder="¿Qué estás leyendo o qué libro recomiendas hoy?" aria-label="Escribir publicación">
+            </div>
+
+            <!-- Botones de acción organizados con flex-wrap para móvil -->
+            <div class="d-flex flex-wrap justify-content-between align-items-center pt-2 border-top gap-2">
+              <div class="d-flex flex-wrap gap-1 gap-sm-2">
+                <button type="button"
+                  class="btn btn-sm btn-light border-0 text-muted fw-semibold d-flex align-items-center gap-1 text-xs"
+                  onclick="insertarPlantilla('Calificación: ⭐⭐⭐⭐⭐')">
+                  <span aria-hidden="true">&#9733;</span> Calificar
+                </button>
+                <button type="button"
+                  class="btn btn-sm btn-light border-0 text-muted fw-semibold d-flex align-items-center gap-1 text-xs"
+                  onclick="insertarPlantilla('«Cita favorita del libro: »')">
+                  <span aria-hidden="true">&#128172;</span> Cita
+                </button>
+                <button type="button"
+                  class="btn btn-sm btn-light border-0 text-muted fw-semibold d-flex align-items-center gap-1 text-xs"
+                  onclick="insertarPlantilla('#RecomendaciónLiteraria')">
+                  <span aria-hidden="true">&#128205;</span> Género
+                </button>
+              </div>
+              <button type="button" class="btn btn-sm btn-dark-minimal px-3 py-1 fw-bold ms-auto" id="btn-publicar">
+                Publicar
+              </button>
+            </div>
+          </div>
+
+          <!-- Contenedor dinámico de publicaciones -->
+          <div id="posts-container" class="d-flex flex-column gap-3">
+
+            <!-- Publicación 1 -->
+            <article class="card border shadow-sm rounded-3 bg-white post-card" id="post-sample-1" data-post-id="sample-1">
+              <div class="card-body p-3">
+
+                <!-- Encabezado del post con envoltorio responsivo -->
+                <div class="d-flex align-items-start justify-content-between gap-2 mb-3">
+                  <div class="d-flex align-items-center gap-2 overflow-hidden">
+                    <div
+                      class="author-avatar rounded-circle d-flex align-items-center justify-content-center text-white fw-bold bg-secondary flex-shrink-0">
+                      MR
+                    </div>
+                    <div class="overflow-hidden">
+                      <h2 class="h6 mb-0 fw-bold text-dark text-truncate">Mateo Rivas</h2>
+                      <small class="text-muted text-xs d-block text-truncate">Especialista en Novela Histórica &bull; hace 2 horas</small>
+                    </div>
+                  </div>
+                  <span class="badge text-bg-light border text-accent flex-shrink-0 text-xs">Reseña 5/5 ⭐</span>
+                </div>
+
+                <!-- Gustos del autor -->
+                <div class="mb-2 d-flex flex-wrap gap-1 align-items-center">
+                  <small class="text-muted text-xs me-1">Gustos:</small>
+                  <span class="badge bg-page text-muted border text-xs">Novela Histórica</span>
+                  <span class="badge bg-page text-muted border text-xs">Misterio</span>
+                </div>
+
+                <!-- Contenido de la reseña -->
+                <div class="post-content-area mb-3">
+                  <p class="post-text small text-dark mb-0">
+                    Acabo de terminar <strong>La Sombra del Viento</strong> de Carlos Ruiz Zafón y quedé maravillado. La
+                    atmósfera de la Barcelona de posguerra, el misterio de Julián Carax y el mítico Cementerio de los Libros
+                    Olvidados crean una de las mejores experiencias literarias que he tenido este año. ¿Alguien más lo ha
+                    leído?
+                  </p>
+                </div>
+
+                <!-- Tarjeta del libro enlazado -->
+                <div class="border rounded p-2 bg-page d-flex align-items-center gap-3 mb-3">
+                  <div class="mini-book-spine cover-vino rounded flex-shrink-0" aria-hidden="true"></div>
+                  <div class="overflow-hidden">
+                    <strong class="d-block small text-dark text-truncate">La Sombra del Viento</strong>
+                    <small class="text-muted text-xs d-block text-truncate">Carlos Ruiz Zafón &bull; 4.9/5 estrellas en EntreHojas</small>
+                  </div>
+                </div>
+
+                <!-- Botones de interacción tipo LinkedIn responsivos -->
+                <div class="d-flex flex-wrap justify-content-around justify-content-sm-between align-items-center pt-2 border-top text-muted small gap-2">
+                  <button type="button"
+                    class="btn-reaction btn btn-sm btn-link text-decoration-none text-muted p-0 d-flex align-items-center gap-1">
+                    <span aria-hidden="true">&#128077;</span>
+                    <span class="like-counter">Me inspiró (42)</span>
+                  </button>
+                  <button type="button"
+                    class="btn btn-sm btn-link text-decoration-none text-muted p-0 d-flex align-items-center gap-1 btn-toggle-comments"
+                    onclick="toggleComentarios('sample-1')">
+                    <span aria-hidden="true">&#128172;</span>
+                    <span class="comments-count">2 comentarios</span>
+                  </button>
+                  <button type="button"
+                    class="btn btn-sm btn-link text-decoration-none text-muted p-0 d-flex align-items-center gap-1"
+                    onclick="guardarPublicacion(this, 'La Sombra del Viento');">
+                    <span aria-hidden="true">&#128278;</span>
+                    <span>Guardar</span>
+                  </button>
+                </div>
+
+                <!-- Sección de comentarios anidados -->
+                <div class="comments-section mt-3 pt-3 border-top bg-light p-2 rounded" id="comments-sample-1">
+                  <div class="comments-list d-flex flex-column gap-2 mb-2">
+                    <div class="d-flex gap-2 mb-1 comment-item">
+                      <div
+                        class="user-avatar-xs rounded-circle d-flex align-items-center justify-content-center text-white fw-bold bg-dark flex-shrink-0">
+                        VG
+                      </div>
+                      <div class="bg-white p-2 rounded border flex-grow-1 small">
+                        <strong class="d-block text-xs fw-bold">Valentina Gómez</strong>
+                        <span class="text-muted text-xs comment-text">¡Completamente de acuerdo! Te recomiendo seguir con <em>El Juego del Ángel</em>, la atmósfera es igual de envolvente.</span>
+                      </div>
+                    </div>
+                    <div class="d-flex gap-2 mb-1 comment-item">
+                      <div
+                        class="user-avatar-xs rounded-circle d-flex align-items-center justify-content-center text-white fw-bold bg-primary flex-shrink-0">
+                        DM
+                      </div>
+                      <div class="bg-white p-2 rounded border flex-grow-1 small">
+                        <strong class="d-block text-xs fw-bold">Diego Morales</strong>
+                        <span class="text-muted text-xs comment-text">Es mi libro favorito de todos los tiempos. La prosa de Zafón es pura poesía.</span>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Caja interactiva para responder -->
+                  <div class="d-flex gap-2 align-items-center pt-2 border-top">
+                    <div class="user-avatar-xs rounded-circle d-flex align-items-center justify-content-center text-white fw-bold bg-dark flex-shrink-0">
+                      SM
+                    </div>
+                    <input type="text" class="form-control form-control-sm rounded-pill px-3"
+                      placeholder="Escribe un comentario..." onkeydown="if(event.key==='Enter') agregarComentario('sample-1', this);">
+                    <button type="button" class="btn btn-sm btn-dark-minimal px-3 py-1 text-xs"
+                      onclick="agregarComentario('sample-1', this.previousElementSibling);">
+                      Comentar
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            </article>
+
+            <!-- Publicación 2 -->
+            <article class="card border shadow-sm rounded-3 bg-white post-card" id="post-sample-2" data-post-id="sample-2">
+              <div class="card-body p-3">
+
+                <div class="d-flex align-items-start justify-content-between gap-2 mb-3">
+                  <div class="d-flex align-items-center gap-2 overflow-hidden">
+                    <div
+                      class="author-avatar rounded-circle d-flex align-items-center justify-content-center text-white fw-bold bg-success flex-shrink-0">
+                      CT
+                    </div>
+                    <div class="overflow-hidden">
+                      <h2 class="h6 mb-0 fw-bold text-dark text-truncate">Camila Torres</h2>
+                      <small class="text-muted text-xs d-block text-truncate">Lectora de Ciencia Ficción &bull; hace 5 horas</small>
+                    </div>
+                  </div>
+                  <span class="badge text-bg-light border text-primary flex-shrink-0 text-xs">Debate Abierto &#129300;</span>
+                </div>
+
+                <div class="mb-2 d-flex flex-wrap gap-1 align-items-center">
+                  <small class="text-muted text-xs me-1">Gustos:</small>
+                  <span class="badge bg-page text-muted border text-xs">Ciencia Ficción</span>
+                  <span class="badge bg-page text-muted border text-xs">Distopías</span>
+                </div>
+
+                <div class="post-content-area mb-3">
+                  <p class="post-text small text-dark mb-0">
+                    Pregunta para los lectores de la comunidad: <strong>¿Cuál es ese libro que cambió por completo su forma
+                      de ver el mundo?</strong><br>
+                    Para mí fue <em>1984</em> de George Orwell. Lo leí a los 18 años y su reflexión sobre el lenguaje y la
+                    verdad me marcó para siempre. ¡Los leo en los comentarios!
+                  </p>
+                </div>
+
+                <div class="d-flex flex-wrap justify-content-around justify-content-sm-between align-items-center pt-2 border-top text-muted small gap-2">
+                  <button type="button"
+                    class="btn-reaction btn btn-sm btn-link text-decoration-none text-muted p-0 d-flex align-items-center gap-1">
+                    <span aria-hidden="true">&#128077;</span>
+                    <span class="like-counter">Me gusta (89)</span>
+                  </button>
+                  <button type="button"
+                    class="btn btn-sm btn-link text-decoration-none text-muted p-0 d-flex align-items-center gap-1 btn-toggle-comments"
+                    onclick="toggleComentarios('sample-2')">
+                    <span aria-hidden="true">&#128172;</span>
+                    <span class="comments-count">1 comentario</span>
+                  </button>
+                  <button type="button"
+                    class="btn btn-sm btn-link text-decoration-none text-muted p-0 d-flex align-items-center gap-1"
+                    onclick="guardarPublicacion(this, 'Debate 1984');">
+                    <span aria-hidden="true">&#128278;</span>
+                    <span>Guardar</span>
+                  </button>
+                </div>
+
+                <!-- Sección de comentarios anidados de post 2 (oculta por defecto) -->
+                <div class="comments-section mt-3 pt-3 border-top bg-light p-2 rounded d-none" id="comments-sample-2">
+                  <div class="comments-list d-flex flex-column gap-2 mb-2">
+                    <div class="d-flex gap-2 mb-1 comment-item">
+                      <div
+                        class="user-avatar-xs rounded-circle d-flex align-items-center justify-content-center text-white fw-bold bg-danger flex-shrink-0">
+                        LP
+                      </div>
+                      <div class="bg-white p-2 rounded border flex-grow-1 small">
+                        <strong class="d-block text-xs fw-bold">Laura Pérez</strong>
+                        <span class="text-muted text-xs comment-text">A mí también me marcó. Especialmente el concepto de neolengua y cómo moldea el pensamiento social.</span>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Caja interactiva para responder -->
+                  <div class="d-flex gap-2 align-items-center pt-2 border-top">
+                    <div class="user-avatar-xs rounded-circle d-flex align-items-center justify-content-center text-white fw-bold bg-dark flex-shrink-0">
+                      SM
+                    </div>
+                    <input type="text" class="form-control form-control-sm rounded-pill px-3"
+                      placeholder="Escribe un comentario..." onkeydown="if(event.key==='Enter') agregarComentario('sample-2', this);">
+                    <button type="button" class="btn btn-sm btn-dark-minimal px-3 py-1 text-xs"
+                      onclick="agregarComentario('sample-2', this.previousElementSibling);">
+                      Comentar
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            </article>
+
+          </div>
+        </section>
+
+        <!-- -------------------------------------------- -->
+        <!-- COLUMNA DERECHA: TENDENCIAS & SUGERENCIAS   -->
+        <!-- -------------------------------------------- -->
+        <aside class="col-12 col-lg-3">
+          <!-- Cuadrícula anidada: en tablet (md) se colocan 2 por fila; en desktop (lg) se apilan -->
+          <div class="row g-3 g-lg-3">
+
+            <!-- Lectores para conectar -->
+            <div class="col-12 col-md-6 col-lg-12">
+              <div class="card border shadow-sm rounded-3 p-3 bg-white h-100">
+                <h3 class="h6 font-serif fw-bold text-dark mb-3 text-center text-md-start">Lectores afines a tus gustos</h3>
+
+                <div class="d-flex flex-column gap-3">
+                  <!-- Sugerencia 1 -->
+                  <div class="d-flex align-items-center justify-content-between gap-2">
+                    <div class="d-flex align-items-center gap-2 overflow-hidden">
+                      <div
+                        class="user-avatar-xs rounded-circle d-flex align-items-center justify-content-center text-white fw-bold bg-danger flex-shrink-0">
+                        LP
+                      </div>
+                      <div class="overflow-hidden">
+                        <strong class="d-block text-xs text-dark text-truncate">Laura Pérez</strong>
+                        <small class="text-muted text-xs d-block text-truncate">Fantasía, Misterio</small>
+                      </div>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-outline-dark rounded-pill py-0 px-2 text-xs flex-shrink-0"
+                      onclick="seguirUsuario(this, 'Laura Pérez');">
+                      + Seguir
+                    </button>
+                  </div>
+
+                  <!-- Sugerencia 2 -->
+                  <div class="d-flex align-items-center justify-content-between gap-2">
+                    <div class="d-flex align-items-center gap-2 overflow-hidden">
+                      <div
+                        class="user-avatar-xs rounded-circle d-flex align-items-center justify-content-center text-dark fw-bold bg-warning flex-shrink-0">
+                        AS
+                      </div>
+                      <div class="overflow-hidden">
+                        <strong class="d-block text-xs text-dark text-truncate">Andrés Silva</strong>
+                        <small class="text-muted text-xs d-block text-truncate">Clásicos, Filosofía</small>
+                      </div>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-outline-dark rounded-pill py-0 px-2 text-xs flex-shrink-0"
+                      onclick="seguirUsuario(this, 'Andrés Silva');">
+                      + Seguir
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Debates en tendencia -->
+            <div class="col-12 col-md-6 col-lg-12">
+              <div class="card border shadow-sm rounded-3 p-3 bg-white h-100">
+                <h3 class="h6 font-serif fw-bold text-dark mb-3 text-center text-md-start">Temas en Tendencia</h3>
+                <ul class="list-unstyled d-flex flex-column gap-2 mb-0 small">
+                  <li>
+                    <a href="#" class="text-decoration-none text-dark d-block fw-bold text-xs"
+                      onclick="event.preventDefault(); filtrarFeed('#RetoLector2026');">
+                      #RetoLector2026
+                    </a>
+                    <small class="text-muted text-xs">1.420 opiniones compartidas</small>
+                  </li>
+                  <li>
+                    <a href="#" class="text-decoration-none text-dark d-block fw-bold text-xs"
+                      onclick="event.preventDefault(); filtrarFeed('#ClubDeLecturaOtoño');">
+                      #ClubDeLecturaOtoño
+                    </a>
+                    <small class="text-muted text-xs">845 comentarios</small>
+                  </li>
+                  <li>
+                    <a href="#" class="text-decoration-none text-dark d-block fw-bold text-xs"
+                      onclick="event.preventDefault(); filtrarFeed('#MejoresFinales');">
+                      #MejoresFinales
+                    </a>
+                    <small class="text-muted text-xs">530 debates activos</small>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Enlace de regreso a la portada con estilo centrado -->
+          <div class="text-center mt-3">
+            <a href="../index.html" class="btn btn-outline-minimal w-100 py-2 small d-flex align-items-center justify-content-center gap-1">
+              <span aria-hidden="true">&larr;</span>
+              <span>Volver a la portada de EntreHojas</span>
+            </a>
+          </div>
+
+        </aside>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- ============================================== -->
+  <!-- 3. PIE DE PÁGINA RESPONSIVO Y CENTRADO         -->
+  <!-- ============================================== -->
+  <footer class="py-4 bg-page border-top mt-4">
+    <div class="container text-center text-md-start">
+      <div class="row g-4 align-items-center mb-3">
+        <div class="col-12 col-md-6">
+          <a class="d-inline-flex align-items-center gap-2 logo-brand text-decoration-none mb-1" href="../index.html">
+            <img src="../imgs/libro-abierto.png" alt="Logo EntreHojas" class="logo-img" width="28" height="28">
+            <span>Entre<span class="text-accent">Hojas</span></span>
+          </a>
+          <p class="text-muted small mb-0">
+            Comunidad digital de lectores para compartir opiniones y debatir capítulo a capítulo.
+          </p>
+        </div>
+        <div class="col-12 col-md-6 text-center text-md-end">
+          <div class="d-flex justify-content-center justify-content-md-end gap-3 small text-muted">
+            <a href="../index.html" class="text-muted text-decoration-none">Inicio</a>
+            <a href="clubs.html" class="text-muted text-decoration-none">Clubs</a>
+            <a href="libros.html" class="text-muted text-decoration-none">Libros</a>
+            <a href="comunidad.html" class="text-accent fw-semibold text-decoration-none">Comunidad</a>
+          </div>
+        </div>
+      </div>
+      <div class="border-top pt-3 text-center text-muted text-xs">
+        &copy; 2026 EntreHojas. Todos los derechos reservados.
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================== -->
+  <!-- MODALES INTERACTIVOS DE PERFIL Y LECTURA       -->
+  <!-- ============================================== -->
+
+  <!-- 1. Modal Editar Perfil -->
+  <div class="modal fade" id="modalEditarPerfil" tabindex="-1" aria-labelledby="modalEditarPerfilLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow rounded-4">
+        <div class="modal-header border-bottom">
+          <h5 class="modal-title fw-bold text-dark fs-6 d-flex align-items-center gap-2" id="modalEditarPerfilLabel">
+            <span aria-hidden="true">&#9999;&#65039;</span> Editar Mi Perfil de Lectura
+          </h5>
+          <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body p-4">
+          <div class="mb-3">
+            <label for="input-perfil-nombre" class="form-label small fw-bold text-dark">Nombre y Apellido</label>
+            <input type="text" class="form-control rounded-3" id="input-perfil-nombre" required>
+          </div>
+          <div class="mb-3">
+            <label for="input-perfil-bio" class="form-label small fw-bold text-dark">Biografía o Frase de Perfil</label>
+            <input type="text" class="form-control rounded-3" id="input-perfil-bio" placeholder="Ej: Lectora empedernida &bull; Reseñista aficionada">
+          </div>
+          <div class="mb-2">
+            <label for="input-perfil-meta" class="form-label small fw-bold text-dark">Meta Anual de Lectura</label>
+            <input type="text" class="form-control rounded-3" id="input-perfil-meta" placeholder="Ej: 32 libros leídos en 2026">
+          </div>
+        </div>
+        <div class="modal-footer border-top">
+          <button type="button" class="btn btn-sm btn-light border px-3" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-sm btn-dark-minimal px-4 fw-bold" onclick="guardarPerfilEditado();">Guardar cambios</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Modal Actualizar Páginas Leídas -->
+  <div class="modal fade" id="modalActualizarPaginas" tabindex="-1" aria-labelledby="modalActualizarPaginasLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+      <div class="modal-content border-0 shadow rounded-4">
+        <div class="modal-header border-bottom">
+          <h5 class="modal-title fw-bold text-dark fs-6" id="modalActualizarPaginasLabel">
+            Avance de Lectura
+          </h5>
+          <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body p-3">
+          <div class="mb-3">
+            <label for="input-pag-actual" class="form-label small fw-bold text-dark">Página en la que vas</label>
+            <input type="number" class="form-control rounded-3" id="input-pag-actual" min="0" required>
+          </div>
+          <div class="mb-2">
+            <label for="input-pag-total" class="form-label small fw-bold text-dark">Total de páginas del libro</label>
+            <input type="number" class="form-control rounded-3" id="input-pag-total" min="1" required>
+          </div>
+        </div>
+        <div class="modal-footer border-top py-2">
+          <button type="button" class="btn btn-sm btn-light border" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-sm btn-dark-minimal px-3 fw-bold" onclick="guardarAvancePaginas();">Actualizar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Modal Agregar Libro a Estantería (Finalizado o Por leer) -->
+  <div class="modal fade" id="modalAgregarLibroTracker" tabindex="-1" aria-labelledby="modalAgregarLibroLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow rounded-4">
+        <div class="modal-header border-bottom">
+          <h5 class="modal-title fw-bold text-dark fs-6 d-flex align-items-center gap-2" id="modalAgregarLibroLabel">
+            <img src="../imgs/libro.png" alt="" class="icon-estante" width="20" height="20"> Añadir a mi Estantería
+          </h5>
+          <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body p-4">
+          <input type="hidden" id="tracker-modal-tipo" value="finalizado">
+          <div class="mb-3">
+            <label for="input-libro-titulo" class="form-label small fw-bold text-dark">Título del libro</label>
+            <input type="text" class="form-control rounded-3" id="input-libro-titulo" placeholder="Ej: Rayuela" required>
+          </div>
+          <div class="mb-3">
+            <label for="input-libro-autor" class="form-label small fw-bold text-dark">Autor</label>
+            <input type="text" class="form-control rounded-3" id="input-libro-autor" placeholder="Ej: Julio Cortázar" required>
+          </div>
+          <div class="mb-3" id="group-libro-calificacion">
+            <label for="select-libro-calificacion" class="form-label small fw-bold text-dark">Tu Calificación</label>
+            <select class="form-select rounded-3" id="select-libro-calificacion">
+              <option value="5">&#9733;&#9733;&#9733;&#9733;&#9733; (Excelente - 5/5)</option>
+              <option value="4">&#9733;&#9733;&#9733;&#9733;&#9734; (Muy bueno - 4/5)</option>
+              <option value="3">&#9733;&#9733;&#9733;&#9734;&#9734; (Bueno - 3/5)</option>
+              <option value="2">&#9733;&#9733;&#9734;&#9734;&#9734; (Regular - 2/5)</option>
+              <option value="1">&#9733;&#9734;&#9734;&#9734;&#9734; (No me gustó - 1/5)</option>
+            </select>
+          </div>
+          <div class="mb-2">
+            <label for="select-libro-color" class="form-label small fw-bold text-dark">Color de lomo en estante</label>
+            <select class="form-select rounded-3" id="select-libro-color">
+              <option value="cover-marron">Índigo &amp; Ciruela</option>
+              <option value="cover-azul">Púrpura Profundo</option>
+              <option value="cover-verde">Lavanda &amp; Violeta</option>
+              <option value="cover-vino">Vino Tinto Editorial</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer border-top">
+          <button type="button" class="btn btn-sm btn-light border px-3" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-sm btn-dark-minimal px-4 fw-bold" onclick="guardarLibroEnTracker();">Añadir libro</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Modal Cambiar Libro Actual -->
+  <div class="modal fade" id="modalCambiarLibroActual" tabindex="-1" aria-labelledby="modalCambiarLibroLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow rounded-4">
+        <div class="modal-header border-bottom">
+          <h5 class="modal-title fw-bold text-dark fs-6 d-flex align-items-center gap-2" id="modalCambiarLibroLabel">
+            <span aria-hidden="true">&#128214;</span> ¿Qué libro estás leyendo ahora?
+          </h5>
+          <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body p-4">
+          <div class="mb-3">
+            <label for="input-nuevo-actual-titulo" class="form-label small fw-bold text-dark">Título del libro</label>
+            <input type="text" class="form-control rounded-3" id="input-nuevo-actual-titulo" placeholder="Ej: Ficciones" required>
+          </div>
+          <div class="mb-3">
+            <label for="input-nuevo-actual-autor" class="form-label small fw-bold text-dark">Autor</label>
+            <input type="text" class="form-control rounded-3" id="input-nuevo-actual-autor" placeholder="Ej: Jorge Luis Borges" required>
+          </div>
+          <div class="row g-2 mb-3">
+            <div class="col-6">
+              <label for="input-nuevo-actual-pag" class="form-label small fw-bold text-dark">Página en la que vas</label>
+              <input type="number" class="form-control rounded-3" id="input-nuevo-actual-pag" value="1" min="0" required>
+            </div>
+            <div class="col-6">
+              <label for="input-nuevo-actual-total" class="form-label small fw-bold text-dark">Total de páginas</label>
+              <input type="number" class="form-control rounded-3" id="input-nuevo-actual-total" value="300" min="1" required>
+            </div>
+          </div>
+          <div class="mb-2">
+            <label for="select-nuevo-actual-color" class="form-label small fw-bold text-dark">Color de portada</label>
+            <select class="form-select rounded-3" id="select-nuevo-actual-color">
+              <option value="cover-marron">Índigo &amp; Ciruela</option>
+              <option value="cover-azul">Púrpura Profundo</option>
+              <option value="cover-verde">Lavanda &amp; Violeta</option>
+              <option value="cover-vino">Vino Tinto Editorial</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer border-top">
+          <button type="button" class="btn btn-sm btn-light border px-3" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-sm btn-dark-minimal px-4 fw-bold" onclick="guardarNuevoLibroActual();">Comenzar lectura</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notificación Toast Minimalista centrada en móvil -->
+  <div class="toast-minimal" id="minimal-toast" role="alert" aria-live="assertive">
+    <span id="toast-message">Notificación</span>
+  </div>
+
+  <!-- Bootstrap 5.3 Bundle con JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- ============================================== -->
+  <!-- 4. LÓGICA INTERACTIVA DE COMUNIDAD             -->
+  <!-- ============================================== -->
+  <script>
+    /* ----------------------------------------------------
+       TOAST NOTIFICACIONES
+    ---------------------------------------------------- */
+    function mostrarToast(mensaje) {
+      const toast = document.getElementById('minimal-toast');
+      const toastMsg = document.getElementById('toast-message');
+      if (!toast || !toastMsg) return;
+
+      toastMsg.textContent = mensaje;
+      toast.classList.add('show');
+
+      clearTimeout(window.toastTimer);
+      window.toastTimer = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    /* ----------------------------------------------------
+       PLANTILLAS RÁPIDAS PARA POSTS
+    ---------------------------------------------------- */
+    function insertarPlantilla(texto) {
+      const input = document.getElementById('post-input');
+      if (!input) return;
+      if (input.value.trim() === '') {
+        input.value = texto + ' ';
+      } else {
+        input.value += ' ' + texto + ' ';
+      }
+      input.focus();
+    }
+
+    /* ----------------------------------------------------
+       ESTADO Y PERSISTENCIA DE PUBLICACIONES (FEED)
+    ---------------------------------------------------- */
+    const STORAGE_KEY_POSTS = 'entrehojas_user_feed_posts';
+    let publicacionesUsuario = [];
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    try {
+      const savedPosts = localStorage.getItem(STORAGE_KEY_POSTS);
+      if (savedPosts) publicacionesUsuario = JSON.parse(savedPosts);
+    } catch (e) {
+      console.warn('Error al leer posts de localStorage:', e);
+    }
+
+    function sincronizarPostsEnStorage() {
+      try {
+        localStorage.setItem(STORAGE_KEY_POSTS, JSON.stringify(publicacionesUsuario));
+      } catch (e) {
+        console.warn('Error al guardar posts:', e);
+      }
+    }
+
+    function crearElementoPost(post) {
+      const article = document.createElement('article');
+      article.className = 'card border shadow-sm rounded-3 bg-white post-card user-post';
+      article.id = `post-${post.id}`;
+      article.setAttribute('data-post-id', post.id);
+
+      const comentarios = post.comments || [];
+
+      article.innerHTML = `
+        <div class="card-body p-3">
+          <!-- Encabezado con menú de opciones para editar y borrar -->
+          <div class="d-flex align-items-start justify-content-between gap-2 mb-3">
+            <div class="d-flex align-items-center gap-2 overflow-hidden">
+              <div class="user-avatar-sm rounded-circle d-flex align-items-center justify-content-center text-white fw-bold flex-shrink-0">
+                SM
+              </div>
+              <div class="overflow-hidden">
+                <h2 class="h6 mb-0 fw-bold text-dark text-truncate">Sofía Martínez</h2>
+                <small class="text-muted text-xs d-block text-truncate post-timestamp">
+                  ${escapeHtml(post.timestamp || 'Hace unos segundos')}
+                  ${post.edited ? '<span class="edited-tag fst-italic text-accent ms-1">(editado)</span>' : ''}
+                </small>
+              </div>
+            </div>
+            <div class="d-flex align-items-center gap-2 flex-shrink-0">
+              <span class="badge text-bg-light border text-accent text-xs">Nuevo Aporte</span>
+              <!-- Menú desplegable de opciones -->
+              <div class="dropdown">
+                <button class="btn btn-sm btn-light border-0 py-0 px-2 text-muted rounded-pill shadow-none" type="button"
+                  data-bs-toggle="dropdown" aria-expanded="false" title="Opciones">
+                  <span class="fw-bold fs-6" aria-hidden="true">&#8942;</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end shadow border p-1 text-xs" style="border-radius: 10px;">
+                  <li>
+                    <button class="dropdown-item py-1 px-2 rounded d-flex align-items-center gap-2" type="button"
+                      onclick="iniciarEdicionPost('${post.id}')">
+                      <span aria-hidden="true">&#9999;&#65039;</span> Editar publicación
+                    </button>
+                  </li>
+                  <li>
+                    <hr class="dropdown-divider my-1">
+                  </li>
+                  <li>
+                    <button class="dropdown-item py-1 px-2 rounded text-danger d-flex align-items-center gap-2" type="button"
+                      onclick="eliminarPost('${post.id}')">
+                      <span aria-hidden="true">&#128465;&#65039;</span> Eliminar publicación
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Contenido textual editable del post -->
+          <div class="post-content-area mb-3">
+            <p class="post-text small text-dark mb-0">${escapeHtml(post.text)}</p>
+          </div>
+
+          <!-- Botones de interacción -->
+          <div class="d-flex flex-wrap justify-content-around justify-content-sm-between align-items-center pt-2 border-top text-muted small gap-2">
+            <button type="button" class="btn btn-sm btn-link text-decoration-none text-muted p-0 d-flex align-items-center gap-1 btn-reaction">
+              <span aria-hidden="true">&#128077;</span>
+              <span class="like-counter">Me gusta (${post.likes || 0})</span>
+            </button>
+            <button type="button" class="btn btn-sm btn-link text-decoration-none text-muted p-0 d-flex align-items-center gap-1 btn-toggle-comments"
+              onclick="toggleComentarios('${post.id}')">
+              <span aria-hidden="true">&#128172;</span>
+              <span class="comments-count">${comentarios.length === 1 ? '1 comentario' : comentarios.length + ' comentarios'}</span>
+            </button>
+            <button type="button" class="btn btn-sm btn-link text-decoration-none text-muted p-0 d-flex align-items-center gap-1"
+              onclick="guardarPublicacion(this, 'Tu publicación');">
+              <span aria-hidden="true">&#128278;</span>
+              <span>Guardar</span>
+            </button>
+          </div>
+
+          <!-- Sección de comentarios anidados -->
+          <div class="comments-section mt-3 pt-3 border-top bg-light p-2 rounded d-none" id="comments-${post.id}">
+            <div class="comments-list d-flex flex-column gap-2 mb-2">
+              ${comentarios.map(c => `
+                <div class="d-flex gap-2 align-items-start comment-item" id="comment-${c.id}">
+                  <div class="user-avatar-xs rounded-circle d-flex align-items-center justify-content-center text-white fw-bold bg-dark flex-shrink-0">
+                    SM
+                  </div>
+                  <div class="bg-white p-2 rounded border flex-grow-1 small">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <strong class="text-xs fw-bold text-dark">Sofía Martínez</strong>
+                      <div class="d-flex align-items-center gap-1">
+                        <button type="button" class="btn btn-sm p-0 text-muted border-0 lh-1" title="Editar comentario"
+                          onclick="editarComentario('${post.id}', '${c.id}')">
+                          <span style="font-size: 0.75rem;">✏️</span>
+                        </button>
+                        <button type="button" class="btn btn-sm p-0 text-danger border-0 lh-1" title="Eliminar comentario"
+                          onclick="eliminarComentario('${post.id}', '${c.id}')">
+                          <span style="font-size: 0.75rem;">🗑️</span>
+                        </button>
+                      </div>
+                    </div>
+                    <p class="comment-text text-muted text-xs mb-0">${escapeHtml(c.text)}</p>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+            <!-- Caja interactiva para responder -->
+            <div class="d-flex gap-2 align-items-center pt-2 border-top">
+              <div class="user-avatar-xs rounded-circle d-flex align-items-center justify-content-center text-white fw-bold bg-dark flex-shrink-0">
+                SM
+              </div>
+              <input type="text" class="form-control form-control-sm rounded-pill px-3"
+                placeholder="Escribe un comentario..." onkeydown="if(event.key==='Enter') agregarComentario('${post.id}', this);">
+              <button type="button" class="btn btn-sm btn-dark-minimal px-3 py-1 text-xs"
+                onclick="agregarComentario('${post.id}', this.previousElementSibling);">
+                Comentar
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      return article;
+    }
+
+    function renderizarPostsGuardados() {
+      const container = document.getElementById('posts-container');
+      if (!container) return;
+
+      // Renderizar al inicio del feed respetando orden cronológico inverso
+      [...publicacionesUsuario].reverse().forEach(post => {
+        const postEl = crearElementoPost(post);
+        container.prepend(postEl);
+      });
+    }
+
+    /* ----------------------------------------------------
+       CREACIÓN DE PUBLICACIONES
+    ---------------------------------------------------- */
+    const btnPublicar = document.getElementById('btn-publicar');
+    const postInput = document.getElementById('post-input');
+    const postsContainer = document.getElementById('posts-container');
+
+    if (btnPublicar && postInput && postsContainer) {
+      btnPublicar.addEventListener('click', () => {
+        const text = postInput.value.trim();
+        if (!text) {
+          mostrarToast('Por favor escribe algo para compartir con la comunidad.');
+          return;
+        }
+
+        const nuevoPost = {
+          id: 'post-' + Date.now(),
+          text: text,
+          timestamp: 'Hace unos momentos',
+          edited: false,
+          likes: 0,
+          comments: []
+        };
+
+        publicacionesUsuario.unshift(nuevoPost);
+        sincronizarPostsEnStorage();
+
+        const postEl = crearElementoPost(nuevoPost);
+        postsContainer.prepend(postEl);
+
+        postInput.value = '';
+        mostrarToast('¡Tu publicación ha sido compartida!');
+      });
+    }
+
+    /* ----------------------------------------------------
+       EDICIÓN Y ELIMINACIÓN DE PUBLICACIONES
+    ---------------------------------------------------- */
+    function iniciarEdicionPost(postId) {
+      const card = document.querySelector(`[data-post-id="${postId}"]`);
+      if (!card) return;
+      const contentArea = card.querySelector('.post-content-area');
+      const postTextEl = contentArea ? contentArea.querySelector('.post-text') : null;
+      if (!contentArea || !postTextEl) return;
+
+      const currentText = postTextEl.textContent.trim();
+      contentArea.setAttribute('data-original-text', currentText);
+
+      contentArea.innerHTML = `
+        <div class="edit-box p-2 bg-light rounded border">
+          <textarea class="form-control form-control-sm mb-2 rounded-2 border" rows="3" aria-label="Editar publicación">${escapeHtml(currentText)}</textarea>
+          <div class="d-flex justify-content-end gap-2">
+            <button type="button" class="btn btn-sm btn-light border py-1 px-3 text-xs" onclick="cancelarEdicionPost('${postId}')">
+              Cancelar
+            </button>
+            <button type="button" class="btn btn-sm btn-dark-minimal py-1 px-3 text-xs fw-bold" onclick="guardarEdicionPost('${postId}')">
+              Guardar cambios
+            </button>
+          </div>
+        </div>
+      `;
+
+      const textarea = contentArea.querySelector('textarea');
+      if (textarea) {
+        textarea.focus();
+        textarea.setSelectionRange(textarea.value.length, textarea.value.length);
+      }
+    }
+
+    function guardarEdicionPost(postId) {
+      const card = document.querySelector(`[data-post-id="${postId}"]`);
+      if (!card) return;
+      const contentArea = card.querySelector('.post-content-area');
+      const textarea = contentArea ? contentArea.querySelector('textarea') : null;
+      if (!textarea) return;
+
+      const newText = textarea.value.trim();
+      if (!newText) {
+        mostrarToast('La publicación no puede quedar vacía.');
+        textarea.focus();
+        return;
+      }
+
+      contentArea.innerHTML = `<p class="post-text small text-dark mb-0">${escapeHtml(newText)}</p>`;
+
+      // Agregar indicador (editado)
+      const timestampEl = card.querySelector('.post-timestamp');
+      if (timestampEl && !timestampEl.querySelector('.edited-tag')) {
+        const editedSpan = document.createElement('span');
+        editedSpan.className = 'edited-tag fst-italic text-accent ms-1';
+        editedSpan.textContent = '(editado)';
+        timestampEl.appendChild(editedSpan);
+      }
+
+      // Actualizar en el arreglo persistente
+      const postData = publicacionesUsuario.find(p => p.id === postId);
+      if (postData) {
+        postData.text = newText;
+        postData.edited = true;
+        sincronizarPostsEnStorage();
+      }
+
+      mostrarToast('Publicación editada con éxito.');
+    }
+
+    function cancelarEdicionPost(postId) {
+      const card = document.querySelector(`[data-post-id="${postId}"]`);
+      if (!card) return;
+      const contentArea = card.querySelector('.post-content-area');
+      const originalText = contentArea ? contentArea.getAttribute('data-original-text') || '' : '';
+      if (contentArea) {
+        contentArea.innerHTML = `<p class="post-text small text-dark mb-0">${escapeHtml(originalText)}</p>`;
+      }
+    }
+
+    function eliminarPost(postId) {
+      if (!confirm('¿Estás seguro de que deseas eliminar esta publicación?')) return;
+
+      const card = document.querySelector(`[data-post-id="${postId}"]`);
+      if (!card) return;
+
+      card.style.transition = 'all 0.25s ease';
+      card.style.opacity = '0';
+      card.style.transform = 'scale(0.96)';
+
+      setTimeout(() => {
+        card.remove();
+        publicacionesUsuario = publicacionesUsuario.filter(p => p.id !== postId);
+        sincronizarPostsEnStorage();
+        mostrarToast('Publicación eliminada correctamente.');
+      }, 250);
+    }
+
+    /* ----------------------------------------------------
+       GESTIÓN DE COMENTARIOS ANIDADOS
+    ---------------------------------------------------- */
+    function toggleComentarios(postId) {
+      const section = document.getElementById(`comments-${postId}`);
+      if (!section) return;
+      section.classList.toggle('d-none');
+      if (!section.classList.contains('d-none')) {
+        const input = section.querySelector('input');
+        if (input) input.focus();
+      }
+    }
+
+    function agregarComentario(postId, inputEl) {
+      if (!inputEl) return;
+      const text = inputEl.value.trim();
+      if (!text) {
+        mostrarToast('El comentario no puede estar vacío.');
+        return;
+      }
+
+      const commentId = 'c-' + Date.now();
+      const section = document.getElementById(`comments-${postId}`);
+      if (!section) return;
+      const list = section.querySelector('.comments-list');
+      if (!list) return;
+
+      const commentItem = document.createElement('div');
+      commentItem.className = 'd-flex gap-2 align-items-start comment-item';
+      commentItem.id = `comment-${commentId}`;
+      commentItem.innerHTML = `
+        <div class="user-avatar-xs rounded-circle d-flex align-items-center justify-content-center text-white fw-bold bg-dark flex-shrink-0">
+          SM
+        </div>
+        <div class="bg-white p-2 rounded border flex-grow-1 small">
+          <div class="d-flex justify-content-between align-items-center mb-1">
+            <strong class="text-xs fw-bold text-dark">Sofía Martínez</strong>
+            <div class="d-flex align-items-center gap-1">
+              <button type="button" class="btn btn-sm p-0 text-muted border-0 lh-1" title="Editar comentario"
+                onclick="editarComentario('${postId}', '${commentId}')">
+                <span style="font-size: 0.75rem;">✏️</span>
+              </button>
+              <button type="button" class="btn btn-sm p-0 text-danger border-0 lh-1" title="Eliminar comentario"
+                onclick="eliminarComentario('${postId}', '${commentId}')">
+                <span style="font-size: 0.75rem;">🗑️</span>
+              </button>
+            </div>
+          </div>
+          <p class="comment-text text-muted text-xs mb-0">${escapeHtml(text)}</p>
+        </div>
+      `;
+
+      list.appendChild(commentItem);
+      inputEl.value = '';
+
+      // Si es un post del usuario, sincronizar en su array
+      const postData = publicacionesUsuario.find(p => p.id === postId);
+      if (postData) {
+        if (!postData.comments) postData.comments = [];
+        postData.comments.push({ id: commentId, text: text });
+        sincronizarPostsEnStorage();
+      }
+
+      actualizarContadorComentarios(postId);
+      mostrarToast('Comentario publicado.');
+    }
+
+    function editarComentario(postId, commentId) {
+      const commentEl = document.getElementById(`comment-${commentId}`);
+      if (!commentEl) return;
+      const p = commentEl.querySelector('.comment-text');
+      if (!p) return;
+
+      const currentText = p.textContent.trim();
+      const newText = prompt('Edita tu comentario:', currentText);
+      if (newText !== null && newText.trim() !== '') {
+        p.textContent = newText.trim();
+
+        // Actualizar en localStorage si corresponde
+        const postData = publicacionesUsuario.find(p => p.id === postId);
+        if (postData && postData.comments) {
+          const c = postData.comments.find(item => item.id === commentId);
+          if (c) {
+            c.text = newText.trim();
+            sincronizarPostsEnStorage();
+          }
+        }
+
+        mostrarToast('Comentario actualizado.');
+      }
+    }
+
+    function eliminarComentario(postId, commentId) {
+      if (!confirm('¿Deseas eliminar este comentario?')) return;
+      const commentEl = document.getElementById(`comment-${commentId}`);
+      if (!commentEl) return;
+
+      commentEl.remove();
+
+      const postData = publicacionesUsuario.find(p => p.id === postId);
+      if (postData && postData.comments) {
+        postData.comments = postData.comments.filter(item => item.id !== commentId);
+        sincronizarPostsEnStorage();
+      }
+
+      actualizarContadorComentarios(postId);
+      mostrarToast('Comentario eliminado.');
+    }
+
+    function actualizarContadorComentarios(postId) {
+      const card = document.querySelector(`[data-post-id="${postId}"]`);
+      if (!card) return;
+      const countEl = card.querySelector('.comments-count');
+      const section = document.getElementById(`comments-${postId}`);
+      if (countEl && section) {
+        const total = section.querySelectorAll('.comment-item').length;
+        countEl.textContent = total === 1 ? '1 comentario' : `${total} comentarios`;
+      }
+    }
+
+    /* ----------------------------------------------------
+       REACCIONES EN POSTS
+    ---------------------------------------------------- */
+    document.addEventListener('click', (e) => {
+      const reactionBtn = e.target.closest('.btn-reaction');
+      if (reactionBtn) {
+        const counter = reactionBtn.querySelector('.like-counter');
+        if (counter) {
+          if (reactionBtn.classList.toggle('text-accent')) {
+            reactionBtn.classList.add('fw-bold');
+            counter.textContent = '¡Te gustó!';
+            mostrarToast('Has reaccionado a esta publicación.');
+          } else {
+            reactionBtn.classList.remove('fw-bold');
+            counter.textContent = 'Me gusta';
+          }
+        }
+      }
+    });
+
+    function guardarPublicacion(btn, titulo) {
+      mostrarToast(`Guardado en tus lecturas pendientes: "${titulo}"`);
+      btn.classList.add('text-accent', 'fw-bold');
+    }
+
+    function seguirUsuario(btn, nombre) {
+      if (btn.classList.contains('following')) {
+        btn.classList.remove('following', 'btn-light');
+        btn.classList.add('btn-outline-dark');
+        btn.textContent = '+ Seguir';
+        mostrarToast(`Has dejado de seguir a ${nombre}.`);
+      } else {
+        btn.classList.add('following', 'btn-light');
+        btn.classList.remove('btn-outline-dark');
+        btn.innerHTML = '&#10003; Siguiendo';
+        mostrarToast(`¡Ahora sigues a ${nombre}!`);
+      }
+    }
+
+    /* ----------------------------------------------------
+       FILTRADO EN VIVO DEL FEED
+    ---------------------------------------------------- */
+    function filtrarFeed(q) {
+      const query = (q || '').toLowerCase().trim();
+      const posts = document.querySelectorAll('#posts-container .post-card');
+      let coincidencias = 0;
+
+      posts.forEach(post => {
+        const text = post.textContent.toLowerCase();
+        if (!query || text.includes(query)) {
+          post.classList.remove('d-none');
+          coincidencias++;
+        } else {
+          post.classList.add('d-none');
+        }
+      });
+
+      if (query) {
+        mostrarToast(`Feed: ${coincidencias} publicación(es) encontrada(s).`);
+      }
+    }
+
+    // Inicializar al cargar el DOM
+    document.addEventListener('DOMContentLoaded', () => {
+      renderizarPostsGuardados();
+      cargarPerfil();
+      cargarGustos();
+      cargarTracker();
+    });
+
+    /* ----------------------------------------------------
+       GESTIÓN DEL FONDO DE PORTADA (BANNER)
+    ---------------------------------------------------- */
+    const bannerEl = document.getElementById('profile-banner');
+
+    // Cargar fondo persistente
+    try {
+      const savedBanner = localStorage.getItem('entrehojas_user_banner');
+      if (savedBanner && bannerEl) {
+        bannerEl.style.backgroundImage = savedBanner;
+        bannerEl.style.backgroundSize = 'cover';
+        bannerEl.style.backgroundPosition = 'center';
+      }
+    } catch (e) {
+      console.warn('Error al leer banner de localStorage:', e);
+    }
+
+    function subirImagenBanner(event) {
+      const file = event.target.files[0];
+      if (!file || !bannerEl) return;
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const bgUrl = `url(${e.target.result})`;
+        bannerEl.style.backgroundImage = bgUrl;
+        bannerEl.style.backgroundSize = 'cover';
+        bannerEl.style.backgroundPosition = 'center';
+        try {
+          localStorage.setItem('entrehojas_user_banner', bgUrl);
+        } catch (err) {
+          console.warn('Error al guardar imagen en localStorage:', err);
+        }
+        mostrarToast('¡Portada actualizada con éxito!');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function cambiarFondoPreset(tipo) {
+      if (!bannerEl) return;
+      let bg = '';
+      if (tipo === 'biblioteca') {
+        bg = 'linear-gradient(135deg, rgba(52, 28, 103, 0.7), rgba(71, 47, 91, 0.8)), url("../imgs/hero-lectura.jpg")';
+      } else if (tipo === 'noche') {
+        bg = 'linear-gradient(135deg, #1b0d38 0%, #07533F 50%, #472F5B 100%)';
+      } else if (tipo === 'aurora') {
+        bg = 'linear-gradient(135deg, #07533F 0%, #CCA4B4 50%, #f8f32b 100%)';
+      } else if (tipo === 'reset') {
+        bannerEl.style.backgroundImage = '';
+        try {
+          localStorage.removeItem('entrehojas_user_banner');
+        } catch (err) {
+          console.warn('Error al limpiar localStorage:', err);
+        }
+        mostrarToast('Portada restablecida al diseño original.');
+        return;
+      }
+
+      bannerEl.style.backgroundImage = bg;
+      bannerEl.style.backgroundSize = 'cover';
+      bannerEl.style.backgroundPosition = 'center';
+      try {
+        localStorage.setItem('entrehojas_user_banner', bg);
+      } catch (err) {
+        console.warn('Error al guardar preset:', err);
+      }
+      mostrarToast('Fondo de portada aplicado con éxito.');
+    }
+
+    /* ----------------------------------------------------
+       5. GESTIÓN DEL PERFIL DE LECTURA (BIBLIOGRAFÍA / BIO)
+    ---------------------------------------------------- */
+    const STORAGE_KEY_PROFILE = 'entrehojas_user_profile';
+    let datosPerfil = {
+      nombre: 'Sofía Martínez',
+      bio: 'Lectora empedernida • Reseñista aficionada',
+      meta: '32 libros leídos en 2026'
+    };
+
+    function cargarPerfil() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY_PROFILE);
+        if (saved) {
+          datosPerfil = Object.assign(datosPerfil, JSON.parse(saved));
+        }
+      } catch (e) {
+        console.warn('Error al cargar perfil de localStorage:', e);
+      }
+      actualizarDOMPerfil();
+    }
+
+    function actualizarDOMPerfil() {
+      const nameEl = document.getElementById('profile-display-name');
+      const bioEl = document.getElementById('profile-display-bio');
+      const goalEl = document.getElementById('profile-display-goal');
+
+      if (nameEl) nameEl.textContent = datosPerfil.nombre || 'Sofía Martínez';
+      if (bioEl) bioEl.textContent = datosPerfil.bio || 'Lectora empedernida • Reseñista aficionada';
+      if (goalEl) {
+        const metaTexto = datosPerfil.meta || '32 libros leídos en 2026';
+        goalEl.innerHTML = `&#127891; ${escapeHtml(metaTexto)}`;
+      }
+    }
+
+    function abrirModalEditarPerfil() {
+      const inputNom = document.getElementById('input-perfil-nombre');
+      const inputBio = document.getElementById('input-perfil-bio');
+      const inputMeta = document.getElementById('input-perfil-meta');
+
+      if (inputNom) inputNom.value = datosPerfil.nombre || '';
+      if (inputBio) inputBio.value = datosPerfil.bio || '';
+      if (inputMeta) inputMeta.value = datosPerfil.meta || '';
+
+      const modalEl = document.getElementById('modalEditarPerfil');
+      if (modalEl) {
+        bootstrap.Modal.getOrCreateInstance(modalEl).show();
+      }
+    }
+
+    function guardarPerfilEditado() {
+      const inputNom = document.getElementById('input-perfil-nombre');
+      const inputBio = document.getElementById('input-perfil-bio');
+      const inputMeta = document.getElementById('input-perfil-meta');
+
+      const nuevoNombre = inputNom ? inputNom.value.trim() : '';
+      if (!nuevoNombre) {
+        mostrarToast('Por favor escribe tu nombre.');
+        return;
+      }
+
+      datosPerfil.nombre = nuevoNombre;
+      datosPerfil.bio = inputBio ? inputBio.value.trim() : '';
+      datosPerfil.meta = inputMeta ? inputMeta.value.trim() : '32 libros leídos en 2026';
+
+      try {
+        localStorage.setItem(STORAGE_KEY_PROFILE, JSON.stringify(datosPerfil));
+      } catch (e) {
+        console.warn('Error al guardar perfil en localStorage:', e);
+      }
+
+      actualizarDOMPerfil();
+
+      const modalEl = document.getElementById('modalEditarPerfil');
+      if (modalEl) {
+        bootstrap.Modal.getInstance(modalEl)?.hide();
+      }
+
+      mostrarToast('¡Tu perfil y bibliografía se han actualizado con éxito!');
+    }
+
+    /* ----------------------------------------------------
+       6. GESTIÓN DE GUSTOS LITERARIOS (GÉNEROS FAVORITOS)
+    ---------------------------------------------------- */
+    const STORAGE_KEY_GENRES = 'entrehojas_user_genres';
+    let gustosLiterarios = ['Fantasía Épica', 'Realismo Mágico', 'Filosofía', 'Misterio'];
+
+    function cargarGustos() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY_GENRES);
+        if (saved) {
+          gustosLiterarios = JSON.parse(saved);
+        }
+      } catch (e) {
+        console.warn('Error al cargar géneros de localStorage:', e);
+      }
+      renderizarGustos();
+    }
+
+    function sincronizarGustos() {
+      try {
+        localStorage.setItem(STORAGE_KEY_GENRES, JSON.stringify(gustosLiterarios));
+      } catch (e) {
+        console.warn('Error al guardar géneros:', e);
+      }
+    }
+
+    function renderizarGustos() {
+      const contenedor = document.getElementById('lista-gustos-literarios');
+      if (!contenedor) return;
+
+      if (!gustosLiterarios || gustosLiterarios.length === 0) {
+        contenedor.innerHTML = '<span class="text-muted text-xs fst-italic">Aún no has agregado géneros favoritos.</span>';
+        return;
+      }
+
+      contenedor.innerHTML = gustosLiterarios.map(genero => {
+        const sanitized = escapeHtml(genero);
+        const safeArg = genero.replace(/'/g, "\\'");
+        return `
+          <span class="genre-tag-removable">
+            <span>${sanitized}</span>
+            <button type="button" class="genre-tag-remove-btn" title="Eliminar ${sanitized}" onclick="eliminarGusto('${safeArg}')">
+              &times;
+            </button>
+          </span>
+        `;
+      }).join('');
+    }
+
+    function toggleCajaNuevoGenero() {
+      const caja = document.getElementById('caja-nuevo-genero');
+      const input = document.getElementById('input-nuevo-genero');
+      if (!caja) return;
+
+      const estaOculto = caja.classList.contains('d-none');
+      if (estaOculto) {
+        caja.classList.remove('d-none');
+        if (input) {
+          input.value = '';
+          input.focus();
+        }
+      } else {
+        caja.classList.add('d-none');
+      }
+    }
+
+    function guardarNuevoGenero() {
+      const input = document.getElementById('input-nuevo-genero');
+      if (!input) return;
+
+      const valor = input.value.trim();
+      if (!valor) {
+        mostrarToast('Escribe el nombre del género literario.');
+        return;
+      }
+
+      const existe = gustosLiterarios.some(g => g.toLowerCase() === valor.toLowerCase());
+      if (existe) {
+        mostrarToast(`"${valor}" ya está en tus gustos literarios.`);
+        return;
+      }
+
+      gustosLiterarios.push(valor);
+      sincronizarGustos();
+      renderizarGustos();
+
+      input.value = '';
+      const caja = document.getElementById('caja-nuevo-genero');
+      if (caja) caja.classList.add('d-none');
+
+      mostrarToast(`¡Género "${valor}" agregado a tus favoritos!`);
+    }
+
+    function eliminarGusto(genero) {
+      gustosLiterarios = gustosLiterarios.filter(g => g.toLowerCase() !== genero.toLowerCase());
+      sincronizarGustos();
+      renderizarGustos();
+      mostrarToast(`Género "${genero}" eliminado de tus gustos.`);
+    }
+
+    /* ----------------------------------------------------
+       7. ESTANTERÍA Y TRACKER VISUAL DE LECTURA
+          - Actualmente Leyendo
+          - Libros Finalizados (Leídos)
+          - Por Leer (Pendientes a futuro)
+    ---------------------------------------------------- */
+    const STORAGE_KEY_TRACKER = 'entrehojas_reading_tracker';
+    let trackerData = {
+      currentlyReading: {
+        title: 'Cien Años de Soledad',
+        author: 'G. García Márquez',
+        currentPage: 310,
+        totalPages: 471,
+        colorClass: 'cover-marron'
+      },
+      finished: [
+        { id: 'fin_1', title: 'El Aleph', author: 'Jorge Luis Borges', rating: 5, colorClass: 'cover-azul', finishedDate: '12 Oct 2026' },
+        { id: 'fin_2', title: 'Pedro Páramo', author: 'Juan Rulfo', rating: 5, colorClass: 'cover-vino', finishedDate: '28 Sep 2026' },
+        { id: 'fin_3', title: 'La Ciudad y los Perros', author: 'Mario Vargas Llosa', rating: 4, colorClass: 'cover-verde', finishedDate: '15 Ago 2026' }
+      ],
+      toRead: [
+        { id: 'next_1', title: 'Ficciones', author: 'Jorge Luis Borges', colorClass: 'cover-azul' },
+        { id: 'next_2', title: 'Rayuela', author: 'Julio Cortázar', colorClass: 'cover-marron' },
+        { id: 'next_3', title: 'Ensayo sobre la ceguera', author: 'José Saramago', colorClass: 'cover-vino' }
+      ]
+    };
+
+    function cargarTracker() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY_TRACKER);
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          trackerData = Object.assign(trackerData, parsed);
+        }
+      } catch (e) {
+        console.warn('Error al cargar tracker de lectura:', e);
+      }
+      actualizarVistaLectura();
+    }
+
+    function sincronizarTracker() {
+      try {
+        localStorage.setItem(STORAGE_KEY_TRACKER, JSON.stringify(trackerData));
+      } catch (e) {
+        console.warn('Error al guardar tracker de lectura:', e);
+      }
+    }
+
+    function cambiarPestanaLectura(tab) {
+      const btnLeyendo = document.getElementById('tab-btn-leyendo');
+      const btnFin = document.getElementById('tab-btn-finalizados');
+      const btnPen = document.getElementById('tab-btn-pendientes');
+      const panelLeyendo = document.getElementById('panel-lectura-leyendo');
+      const panelFin = document.getElementById('panel-lectura-finalizados');
+      const panelPen = document.getElementById('panel-lectura-pendientes');
+
+      [btnLeyendo, btnFin, btnPen].forEach(b => b?.classList.remove('active'));
+      [panelLeyendo, panelFin, panelPen].forEach(p => p?.classList.add('d-none'));
+
+      if (tab === 'leyendo') {
+        btnLeyendo?.classList.add('active');
+        panelLeyendo?.classList.remove('d-none');
+      } else if (tab === 'finalizados') {
+        btnFin?.classList.add('active');
+        panelFin?.classList.remove('d-none');
+      } else if (tab === 'pendientes') {
+        btnPen?.classList.add('active');
+        panelPen?.classList.remove('d-none');
+      }
+    }
+
+    function actualizarVistaLectura() {
+      // 1. Libro que se está leyendo actualmente
+      const curr = trackerData.currentlyReading || {
+        title: 'Cien Años de Soledad',
+        author: 'G. García Márquez',
+        currentPage: 310,
+        totalPages: 471,
+        colorClass: 'cover-marron'
+      };
+
+      const titleEl = document.getElementById('current-book-title');
+      const authorEl = document.getElementById('current-book-author');
+      const percentEl = document.getElementById('current-book-percent');
+      const progressbarEl = document.getElementById('current-book-progressbar');
+      const pagesTextEl = document.getElementById('current-book-pages-text');
+      const visualEl = document.getElementById('current-book-visual');
+
+      const totalPags = Math.max(1, parseInt(curr.totalPages, 10) || 1);
+      const pagActual = Math.min(totalPags, Math.max(0, parseInt(curr.currentPage, 10) || 0));
+      const porcentaje = Math.min(100, Math.round((pagActual / totalPags) * 100));
+
+      if (titleEl) titleEl.textContent = curr.title;
+      if (authorEl) authorEl.textContent = curr.author;
+      if (percentEl) percentEl.textContent = `${porcentaje}%`;
+      if (progressbarEl) progressbarEl.style.width = `${porcentaje}%`;
+      if (pagesTextEl) pagesTextEl.textContent = `Pág. ${pagActual} de ${totalPags}`;
+      if (visualEl) {
+        visualEl.className = `book-visual-mini ${curr.colorClass || 'cover-marron'} text-white`;
+      }
+
+      // 2. Contadores en las pestañas
+      const badgeFin = document.getElementById('badge-count-finalizados');
+      const badgePen = document.getElementById('badge-count-pendientes');
+      if (badgeFin) badgeFin.textContent = trackerData.finished ? trackerData.finished.length : 0;
+      if (badgePen) badgePen.textContent = trackerData.toRead ? trackerData.toRead.length : 0;
+
+      // 3. Renderizar Libros Finalizados (Leídos)
+      const listFin = document.getElementById('lista-libros-finalizados');
+      if (listFin) {
+        if (!trackerData.finished || trackerData.finished.length === 0) {
+          listFin.innerHTML = `
+            <div class="text-center py-3 text-muted text-xs">
+              <img src="../imgs/libro.png" alt="" style="width: 28px; height: 28px; opacity: 0.6;" class="d-block mx-auto mb-1">
+              <span>Aún no tienes libros finalizados registrados.</span>
+            </div>
+          `;
+        } else {
+          listFin.innerHTML = trackerData.finished.map(book => {
+            const numStars = Math.max(1, Math.min(5, parseInt(book.rating, 10) || 5));
+            const starsHtml = '&#9733;'.repeat(numStars) + '&#9734;'.repeat(5 - numStars);
+            return `
+              <div class="book-tracker-item">
+                <div class="d-flex align-items-center gap-2 overflow-hidden">
+                  <div class="book-visual-mini ${book.colorClass || 'cover-azul'} text-white" style="width: 32px; height: 46px; padding: 2px;">
+                    <div class="book-visual-spine"></div>
+                    <div class="text-center w-100 my-auto" style="font-size: 0.65rem;">&#10003;</div>
+                  </div>
+                  <div class="overflow-hidden">
+                    <strong class="d-block text-dark text-truncate text-xs">${escapeHtml(book.title)}</strong>
+                    <small class="text-muted text-xs d-block text-truncate">${escapeHtml(book.author)}</small>
+                    <div class="text-xs" style="color: var(--eh-gold); font-size: 0.72rem; line-height: 1;">
+                      <span>${starsHtml}</span>
+                      ${book.finishedDate ? `<span class="text-muted ms-1" style="font-size: 0.65rem;">&bull; ${escapeHtml(book.finishedDate)}</span>` : ''}
+                    </div>
+                  </div>
+                </div>
+                <button type="button" class="btn btn-sm btn-light border-0 py-0 px-2 text-muted rounded-pill shadow-none"
+                  title="Eliminar de libros leídos" onclick="eliminarLibroFinalizado('${book.id}')">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+            `;
+          }).join('');
+        }
+      }
+
+      // 4. Renderizar Libros Pendientes (Por Leer)
+      const listPen = document.getElementById('lista-libros-pendientes');
+      if (listPen) {
+        if (!trackerData.toRead || trackerData.toRead.length === 0) {
+          listPen.innerHTML = `
+            <div class="text-center py-3 text-muted text-xs">
+              <span class="d-block mb-1 fs-5">&#128204;</span>
+              <span>No tienes libros en tu lista de deseos por leer.</span>
+            </div>
+          `;
+        } else {
+          listPen.innerHTML = trackerData.toRead.map(book => `
+            <div class="book-tracker-item">
+              <div class="d-flex align-items-center gap-2 overflow-hidden">
+                <div class="book-visual-mini ${book.colorClass || 'cover-marron'} text-white" style="width: 32px; height: 46px; padding: 2px;">
+                  <div class="book-visual-spine"></div>
+                  <div class="book-visual-ribbon" style="width: 5px; height: 10px; right: 2px;"></div>
+                  <div class="text-center w-100 my-auto"><img src="../imgs/libro-abierto.png" style="width: 12px; height: 12px; filter: brightness(0) invert(1);" alt=""></div>
+                </div>
+                <div class="overflow-hidden">
+                  <strong class="d-block text-dark text-truncate text-xs">${escapeHtml(book.title)}</strong>
+                  <small class="text-muted text-xs d-block text-truncate">${escapeHtml(book.author)}</small>
+                  <button type="button" class="btn btn-sm btn-link p-0 text-accent text-decoration-none text-xs fw-semibold mt-1"
+                    onclick="empezarALeerPendiente('${book.id}')">
+                    &#9654; Empezar a leer
+                  </button>
+                </div>
+              </div>
+              <button type="button" class="btn btn-sm btn-light border-0 py-0 px-2 text-muted rounded-pill shadow-none"
+                title="Eliminar de pendientes" onclick="eliminarLibroPendiente('${book.id}')">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          `).join('');
+        }
+      }
+    }
+
+    function abrirModalActualizarPaginas() {
+      const curr = trackerData.currentlyReading;
+      const inpAct = document.getElementById('input-pag-actual');
+      const inpTot = document.getElementById('input-pag-total');
+
+      if (inpAct) inpAct.value = curr.currentPage || 0;
+      if (inpTot) inpTot.value = curr.totalPages || 300;
+
+      const modalEl = document.getElementById('modalActualizarPaginas');
+      if (modalEl) {
+        bootstrap.Modal.getOrCreateInstance(modalEl).show();
+      }
+    }
+
+    function guardarAvancePaginas() {
+      const inpAct = document.getElementById('input-pag-actual');
+      const inpTot = document.getElementById('input-pag-total');
+
+      const act = parseInt(inpAct?.value, 10);
+      const tot = parseInt(inpTot?.value, 10);
+
+      if (isNaN(tot) || tot <= 0) {
+        mostrarToast('El total de páginas debe ser un número mayor a 0.');
+        return;
+      }
+      if (isNaN(act) || act < 0) {
+        mostrarToast('La página actual debe ser 0 o superior.');
+        return;
+      }
+
+      trackerData.currentlyReading.currentPage = Math.min(act, tot);
+      trackerData.currentlyReading.totalPages = tot;
+
+      sincronizarTracker();
+      actualizarVistaLectura();
+
+      const modalEl = document.getElementById('modalActualizarPaginas');
+      if (modalEl) {
+        bootstrap.Modal.getInstance(modalEl)?.hide();
+      }
+
+      if (act >= tot) {
+        mostrarToast('¡Has llegado al 100%! Puedes marcar el libro como finalizado 🎉');
+      } else {
+        mostrarToast('¡Progreso de lectura actualizado!');
+      }
+    }
+
+    function marcarLibroActualComoFinalizado() {
+      const curr = trackerData.currentlyReading;
+      if (!curr || !curr.title) return;
+
+      const hoy = new Date();
+      const meses = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+      const fechaStr = `${hoy.getDate()} ${meses[hoy.getMonth()]} ${hoy.getFullYear()}`;
+
+      const libroTerminado = {
+        id: 'fin_' + Date.now(),
+        title: curr.title,
+        author: curr.author,
+        rating: 5,
+        colorClass: curr.colorClass || 'cover-azul',
+        finishedDate: fechaStr
+      };
+
+      trackerData.finished.unshift(libroTerminado);
+
+      // Incrementar contador en la meta anual si tiene números
+      const matchNum = (datosPerfil.meta || '').match(/\d+/);
+      if (matchNum) {
+        const nuevoTotal = parseInt(matchNum[0], 10) + 1;
+        datosPerfil.meta = datosPerfil.meta.replace(/\d+/, nuevoTotal.toString());
+        try {
+          localStorage.setItem(STORAGE_KEY_PROFILE, JSON.stringify(datosPerfil));
+          actualizarDOMPerfil();
+        } catch (e) {
+          console.warn('Error al actualizar meta:', e);
+        }
+      }
+
+      // Si hay libros en "Por Leer", sugerir continuar con el siguiente
+      if (trackerData.toRead.length > 0) {
+        const siguiente = trackerData.toRead.shift();
+        trackerData.currentlyReading = {
+          title: siguiente.title,
+          author: siguiente.author,
+          currentPage: 1,
+          totalPages: 320,
+          colorClass: siguiente.colorClass || 'cover-marron'
+        };
+      } else {
+        trackerData.currentlyReading.currentPage = trackerData.currentlyReading.totalPages;
+      }
+
+      sincronizarTracker();
+      actualizarVistaLectura();
+      mostrarToast(`¡Felicitaciones! Has finalizado "${libroTerminado.title}" 🎉`);
+    }
+
+    function abrirModalCambiarLibroActual() {
+      const curr = trackerData.currentlyReading;
+      const inpTit = document.getElementById('input-nuevo-actual-titulo');
+      const inpAut = document.getElementById('input-nuevo-actual-autor');
+      const inpPag = document.getElementById('input-nuevo-actual-pag');
+      const inpTot = document.getElementById('input-nuevo-actual-total');
+      const selCol = document.getElementById('select-nuevo-actual-color');
+
+      if (inpTit) inpTit.value = curr.title || '';
+      if (inpAut) inpAut.value = curr.author || '';
+      if (inpPag) inpPag.value = curr.currentPage || 1;
+      if (inpTot) inpTot.value = curr.totalPages || 300;
+      if (selCol) selCol.value = curr.colorClass || 'cover-marron';
+
+      const modalEl = document.getElementById('modalCambiarLibroActual');
+      if (modalEl) {
+        bootstrap.Modal.getOrCreateInstance(modalEl).show();
+      }
+    }
+
+    function guardarNuevoLibroActual() {
+      const inpTit = document.getElementById('input-nuevo-actual-titulo');
+      const inpAut = document.getElementById('input-nuevo-actual-autor');
+      const inpPag = document.getElementById('input-nuevo-actual-pag');
+      const inpTot = document.getElementById('input-nuevo-actual-total');
+      const selCol = document.getElementById('select-nuevo-actual-color');
+
+      const tit = inpTit?.value.trim();
+      const aut = inpAut?.value.trim();
+      const pag = parseInt(inpPag?.value, 10) || 1;
+      const tot = parseInt(inpTot?.value, 10) || 300;
+      const col = selCol?.value || 'cover-marron';
+
+      if (!tit || !aut) {
+        mostrarToast('Por favor completa el título y el autor del libro.');
+        return;
+      }
+
+      trackerData.currentlyReading = {
+        title: tit,
+        author: aut,
+        currentPage: Math.min(pag, tot),
+        totalPages: tot,
+        colorClass: col
+      };
+
+      sincronizarTracker();
+      actualizarVistaLectura();
+      cambiarPestanaLectura('leyendo');
+
+      const modalEl = document.getElementById('modalCambiarLibroActual');
+      if (modalEl) {
+        bootstrap.Modal.getInstance(modalEl)?.hide();
+      }
+
+      mostrarToast(`¡Comenzaste la lectura de "${tit}"!`);
+    }
+
+    function abrirModalAgregarLibro(tipo) {
+      const inpTipo = document.getElementById('tracker-modal-tipo');
+      const modalLabel = document.getElementById('modalAgregarLibroLabel');
+      const groupCal = document.getElementById('group-libro-calificacion');
+      const inpTit = document.getElementById('input-libro-titulo');
+      const inpAut = document.getElementById('input-libro-autor');
+
+      if (inpTipo) inpTipo.value = tipo;
+      if (inpTit) inpTit.value = '';
+      if (inpAut) inpAut.value = '';
+
+      if (tipo === 'finalizado') {
+        if (modalLabel) modalLabel.innerHTML = '&#9989; Registrar libro que finalicé';
+        if (groupCal) groupCal.classList.remove('d-none');
+      } else {
+        if (modalLabel) modalLabel.innerHTML = '&#128204; Añadir libro que quiero leer después';
+        if (groupCal) groupCal.classList.add('d-none');
+      }
+
+      const modalEl = document.getElementById('modalAgregarLibroTracker');
+      if (modalEl) {
+        bootstrap.Modal.getOrCreateInstance(modalEl).show();
+      }
+    }
+
+    function guardarLibroEnTracker() {
+      const inpTipo = document.getElementById('tracker-modal-tipo')?.value || 'finalizado';
+      const inpTit = document.getElementById('input-libro-titulo');
+      const inpAut = document.getElementById('input-libro-autor');
+      const selCal = document.getElementById('select-libro-calificacion');
+      const selCol = document.getElementById('select-libro-color');
+
+      const tit = inpTit?.value.trim();
+      const aut = inpAut?.value.trim();
+      const cal = parseInt(selCal?.value, 10) || 5;
+      const col = selCol?.value || 'cover-marron';
+
+      if (!tit || !aut) {
+        mostrarToast('Por favor completa el título y autor del libro.');
+        return;
+      }
+
+      if (inpTipo === 'finalizado') {
+        const hoy = new Date();
+        const meses = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+        const fechaStr = `${hoy.getDate()} ${meses[hoy.getMonth()]} ${hoy.getFullYear()}`;
+
+        trackerData.finished.unshift({
+          id: 'fin_' + Date.now(),
+          title: tit,
+          author: aut,
+          rating: cal,
+          colorClass: col,
+          finishedDate: fechaStr
+        });
+
+        cambiarPestanaLectura('finalizados');
+        mostrarToast(`"${tit}" guardado en tus libros finalizados.`);
+      } else {
+        trackerData.toRead.unshift({
+          id: 'next_' + Date.now(),
+          title: tit,
+          author: aut,
+          colorClass: col
+        });
+
+        cambiarPestanaLectura('pendientes');
+        mostrarToast(`"${tit}" guardado en tus lecturas pendientes.`);
+      }
+
+      sincronizarTracker();
+      actualizarVistaLectura();
+
+      const modalEl = document.getElementById('modalAgregarLibroTracker');
+      if (modalEl) {
+        bootstrap.Modal.getInstance(modalEl)?.hide();
+      }
+    }
+
+    function empezarALeerPendiente(bookId) {
+      const index = trackerData.toRead.findIndex(b => b.id === bookId);
+      if (index === -1) return;
+
+      const libro = trackerData.toRead.splice(index, 1)[0];
+      trackerData.currentlyReading = {
+        title: libro.title,
+        author: libro.author,
+        currentPage: 1,
+        totalPages: 320,
+        colorClass: libro.colorClass || 'cover-marron'
+      };
+
+      sincronizarTracker();
+      actualizarVistaLectura();
+      cambiarPestanaLectura('leyendo');
+      mostrarToast(`¡Comenzaste a leer "${libro.title}"! 📖`);
+    }
+
+    function eliminarLibroFinalizado(id) {
+      trackerData.finished = trackerData.finished.filter(b => b.id !== id);
+      sincronizarTracker();
+      actualizarVistaLectura();
+      mostrarToast('Libro eliminado de la lista de leídos.');
+    }
+
+    function eliminarLibroPendiente(id) {
+      trackerData.toRead = trackerData.toRead.filter(b => b.id !== id);
+      sincronizarTracker();
+      actualizarVistaLectura();
+      mostrarToast('Libro eliminado de tus lecturas pendientes.');
+    }
+  </script>
+
+</body>
+
+</html>

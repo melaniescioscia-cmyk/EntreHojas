@@ -1,0 +1,1483 @@
+﻿/* ==========================================================================
+   ENTREHOJAS - ESTILOS MINIMALISTAS
+   Paleta: #341C67 (Índigo), #472F5B (Ciruela), #C4AEF4 (Lavanda),
+           #CCA4B4 (Malva), #f8f32b (Chartreuse Dorado)
+   Tipografía: Rubik Variable + Rubik Italic Variable
+   ========================================================================== */
+
+/* 1. FUENTES LOCALES RUBIK VARIABLE */
+@font-face {
+  font-family: 'Rubik';
+  src: url('../tipografia/Rubik-VariableFont_wght.ttf') format('truetype-variations');
+  font-weight: 300 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Rubik';
+  src: url('../tipografia/Rubik-Italic-VariableFont_wght.ttf') format('truetype-variations');
+  font-weight: 300 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Playfair Display (títulos serif) guardada en la carpeta: funciona sin internet */
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('../tipografia/PlayfairDisplay-Variable.woff2') format('woff2');
+  font-weight: 400 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('../tipografia/PlayfairDisplay-Italic-Variable.woff2') format('woff2');
+  font-weight: 400 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ==========================================================================
+   ENTREHOJAS - NUEVA PALETA EDITORIAL (INSPIRADA EN BOOKIFY)
+   Paleta requerida:
+   - #07533F (Verde bosque profundo / Forest Green)
+   - #063D30 (Verde oscuro intenso / Dark Pine)
+   - #FFF5F0 (Crema cálido melocotón suave / Peach Warm)
+   - #E97859 (Terracota coral / Coral Terracotta)
+   - #D9B99B (Arena cálido / Warm Sand)
+   - #FFFCFA (Off-white puro luminoso / Canvas)
+   - #26352F (Pizarra bosque oscuro para textos)
+   ========================================================================== */
+
+:root {
+  /* 7 Colores del Sistema */
+  --eh-forest: #07533F;
+  --eh-pine: #063D30;
+  --eh-peach: #FFF5F0;
+  --eh-terracotta: #E97859;
+  --eh-sand: #D9B99B;
+  --eh-offwhite: #FFFCFA;
+  --eh-slate: #26352F;
+
+  /* Mapeo retrocompatible para páginas internas */
+  --eh-indigo: var(--eh-forest);
+  --eh-plum: var(--eh-slate);
+  --eh-lavender: var(--eh-sand);
+  --eh-mauve: var(--eh-sand);
+  --eh-gold: var(--eh-terracotta);
+
+  /* Sistema Base */
+  --bs-body-font-family: 'Rubik', system-ui, -apple-system, sans-serif;
+  --bs-body-color: var(--eh-slate);
+  --bs-body-bg: var(--eh-offwhite);
+
+  --eh-bg-page: var(--eh-offwhite);
+  --eh-card-bg: #ffffff;
+  --eh-text-dark: var(--eh-forest);
+  --eh-text-muted: #5e6f67;
+  --eh-border: var(--eh-sand);
+  --eh-border-subtle: rgba(217, 185, 155, 0.45);
+
+  --eh-accent: var(--eh-forest);
+  --eh-accent-secondary: var(--eh-terracotta);
+  --eh-accent-highlight: var(--eh-peach);
+  --eh-star: var(--eh-terracotta);
+
+  --eh-font-serif: 'Playfair Display', Georgia, serif;
+  --eh-font-sans: 'Rubik', system-ui, -apple-system, sans-serif;
+}
+
+/* 3. BASE Y TIPOGRAFÍA */
+body {
+  font-family: var(--eh-font-sans);
+  background-color: var(--eh-bg-page);
+  color: var(--eh-text-dark);
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.hero-heading,
+.section-heading,
+.logo-title {
+  font-family: var(--eh-font-serif);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--eh-forest);
+}
+
+/* Nota: usar clase Bootstrap 5 nativa fst-italic en lugar de font-italic */
+
+.bg-page {
+  background-color: var(--eh-bg-page) !important;
+}
+
+.bg-card {
+  background-color: var(--eh-card-bg) !important;
+}
+
+.text-accent {
+  color: var(--eh-indigo) !important;
+}
+
+.text-muted {
+  color: var(--eh-plum) !important;
+}
+
+/* 4. CABECERA MINIMALISTA */
+.navbar-minimal {
+  background-color: rgba(250, 248, 253, 0.94) !important;
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--eh-border-subtle);
+}
+
+.logo-brand {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--eh-indigo);
+  text-decoration: none;
+  letter-spacing: -0.02em;
+}
+
+.logo-img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  display: inline-block;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.logo-brand:hover .logo-img {
+  transform: scale(1.05);
+}
+
+.icon-search {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  display: inline-block;
+  vertical-align: middle;
+  transition: transform 0.2s ease;
+}
+
+.btn-search:hover .icon-search {
+  transform: scale(1.1);
+}
+
+.icon-estante {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  display: inline-block;
+  vertical-align: middle;
+  transition: transform 0.2s ease;
+}
+
+#btn-ver-estante:hover .icon-estante {
+  transform: rotate(-5deg) scale(1.08);
+}
+
+.nav-link {
+  color: var(--eh-plum) !important;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0.45rem 0.85rem !important;
+  border-radius: 50rem;
+  transition: all 0.15s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--eh-indigo) !important;
+  background-color: rgba(217, 185, 155, 0.35);
+}
+
+.search-minimal .form-control {
+  background-color: #ffffff;
+  border: 1px solid var(--eh-mauve);
+  color: var(--eh-indigo);
+  font-size: 0.88rem;
+  padding: 0.45rem 0.95rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search-minimal .form-control:focus {
+  border-color: var(--eh-indigo);
+  box-shadow: 0 0 0 2px rgba(7, 83, 63, 0.15);
+  color: var(--eh-indigo);
+}
+
+.search-minimal .form-control::placeholder {
+  color: var(--eh-mauve);
+  opacity: 0.9;
+}
+
+.btn-search {
+  background-color: #ffffff;
+  border: 1px solid var(--eh-mauve);
+  border-left: none;
+  color: var(--eh-plum);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.search-minimal .input-group:focus-within .btn-search,
+.search-minimal .input-group:focus-within .form-control {
+  border-color: var(--eh-indigo);
+}
+
+.btn-search:hover {
+  background-color: rgba(217, 185, 155, 0.25);
+  color: var(--eh-indigo);
+}
+
+/* 5. BOTONES MINIMALISTAS */
+.btn-dark-minimal {
+  background-color: var(--eh-indigo);
+  color: #ffffff;
+  border: 1px solid var(--eh-indigo);
+  border-radius: 50rem;
+  font-weight: 600;
+  font-size: 0.88rem;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.btn-dark-minimal:hover {
+  background-color: var(--eh-plum);
+  color: #ffffff;
+  border-color: var(--eh-plum);
+}
+
+.btn-outline-minimal {
+  background-color: transparent;
+  color: var(--eh-indigo);
+  border: 1px solid var(--eh-mauve);
+  border-radius: 50rem;
+  font-weight: 600;
+  font-size: 0.88rem;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.btn-outline-minimal:hover {
+  background-color: var(--eh-gold);
+  border-color: var(--eh-indigo);
+  color: var(--eh-indigo);
+}
+
+/* 6. TARJETAS Y CONTENEDORES MINIMALISTAS */
+.card-minimal {
+  background-color: #ffffff;
+  border: 1px solid var(--eh-border-subtle);
+  border-radius: 14px;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.card-minimal:hover {
+  border-color: var(--eh-mauve);
+  transform: translateY(-2px);
+}
+
+.badge-minimal {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.25rem 0.65rem;
+  border-radius: 50rem;
+  background-color: var(--eh-gold);
+  color: var(--eh-indigo);
+  border: 1px solid rgba(7, 83, 63, 0.15);
+  letter-spacing: 0.02em;
+  display: inline-flex;
+  align-items: center;
+}
+
+.badge-neutral {
+  background-color: rgba(217, 185, 155, 0.25);
+  color: var(--eh-plum);
+  border: 1px solid var(--eh-border-subtle);
+}
+
+.badge-gold {
+  background-color: var(--eh-gold);
+  color: var(--eh-indigo);
+  font-weight: 700;
+}
+
+.highlight-gold {
+  background: linear-gradient(120deg, rgba(248, 243, 43, 0.35) 0%, rgba(248, 243, 43, 0.75) 100%);
+  padding: 0.1rem 0.45rem;
+  border-radius: 6px;
+  color: var(--eh-indigo);
+}
+
+.feature-number {
+  color: #9e911a;
+  font-weight: 800;
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+}
+
+/* 7. TARJETAS DE CLUBS Y BARRAS DE PROGRESO */
+.club-minimal-card {
+  background-color: #ffffff;
+  border: 1px solid var(--eh-border-subtle);
+  border-radius: 14px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.club-minimal-card:hover {
+  border-color: var(--eh-mauve);
+  transform: translateY(-2px);
+}
+
+.progress-minimal {
+  height: 5px;
+  background-color: rgba(217, 185, 155, 0.35);
+  border-radius: 50rem;
+  overflow: hidden;
+}
+
+.progress-minimal-bar {
+  background-color: var(--eh-gold);
+  height: 100%;
+  border-radius: 50rem;
+  transition: width 0.4s ease;
+}
+
+/* 8. PORTADAS DE LIBROS EDITORIALES */
+.book-card-minimal {
+  background-color: #ffffff;
+  border: 1px solid var(--eh-border-subtle);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.book-card-minimal:hover {
+  border-color: var(--eh-mauve);
+  transform: translateY(-2px);
+}
+
+.book-cover {
+  height: 160px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Títulos y textos en portadas oscuras en blanco luminoso */
+.book-cover h3,
+.book-cover .h6,
+.book-cover strong {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.book-cover small,
+.book-cover .fst-italic {
+  color: #ffffff !important;
+  opacity: 0.9 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.book-cover .badge-neutral,
+.book-cover .badge {
+  background-color: rgba(255, 255, 255, 0.22) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  backdrop-filter: blur(4px);
+  font-weight: 600;
+}
+
+.book-spine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* Gradientes de portadas armonizados con la nueva paleta (#07533F, #063D30, #E97859, #26352F) */
+.cover-marron {
+  background: linear-gradient(145deg, #07533F, #063D30);
+}
+
+.cover-azul {
+  background: linear-gradient(145deg, #E97859, #b95033);
+}
+
+.cover-verde {
+  background: linear-gradient(145deg, #063D30, #26352F);
+}
+
+.cover-vino {
+  background: linear-gradient(145deg, #26352F, #07533F);
+}
+
+.star-rating {
+  color: var(--eh-gold);
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+}
+
+.btn-want {
+  background-color: #ffffff;
+  color: var(--eh-indigo);
+  border: 1px solid var(--eh-mauve);
+  border-radius: 50rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.45rem 0.85rem;
+  transition: all 0.2s ease;
+}
+
+.btn-want:hover {
+  background-color: var(--eh-indigo);
+  color: #ffffff;
+  border-color: var(--eh-indigo);
+}
+
+.btn-want.added {
+  background-color: var(--eh-gold);
+  color: var(--eh-indigo);
+  border-color: var(--eh-indigo);
+  font-weight: 700;
+}
+
+/* 9. PÍLDORAS DE GÉNERO Y FILTROS */
+.genre-pill-minimal {
+  background-color: #ffffff;
+  border: 1px solid var(--eh-border-subtle);
+  padding: 0.45rem 1rem;
+  border-radius: 50rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--eh-indigo);
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.genre-pill-minimal:hover {
+  border-color: var(--eh-indigo);
+  background-color: var(--eh-gold);
+  color: var(--eh-indigo);
+}
+
+.filter-tab-pill {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--eh-plum);
+  padding: 0.35rem 0.85rem;
+  border-radius: 50rem;
+  font-weight: 500;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.filter-tab-pill:hover {
+  color: var(--eh-indigo);
+  background-color: rgba(217, 185, 155, 0.35);
+}
+
+.filter-tab-pill.active {
+  background-color: var(--eh-indigo);
+  color: #ffffff;
+}
+
+@media (max-width: 575.98px) {
+  .filter-tab-pill {
+    padding: 0.32rem 0.65rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* 10. ESTILOS COMPATIBLES PARA COMUNIDAD */
+.nav-social-item {
+  color: var(--eh-plum);
+  padding: 0.3rem 0.65rem;
+  border-radius: 8px;
+  transition: color 0.15s ease;
+}
+
+.nav-social-item:hover,
+.nav-social-item.active {
+  color: var(--eh-indigo);
+}
+
+.nav-social-icon {
+  font-size: 1.2rem;
+  display: block;
+  line-height: 1;
+}
+
+.profile-banner {
+  height: 110px;
+  background: linear-gradient(135deg, var(--eh-indigo), var(--eh-plum));
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  transition: background 0.3s ease;
+}
+
+.btn-change-banner {
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  color: var(--eh-indigo);
+  border-radius: 50rem;
+  padding: 0.25rem 0.65rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
+}
+
+.btn-change-banner:hover,
+.btn-change-banner:focus {
+  background-color: #ffffff;
+  color: var(--eh-indigo);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.btn-change-banner::after {
+  display: none !important;
+}
+
+.user-avatar-lg {
+  width: 64px;
+  height: 64px;
+  background-color: var(--eh-indigo);
+  color: #ffffff;
+  font-size: 1.25rem;
+  border: 4px solid #ffffff;
+  margin-top: -32px;
+  box-shadow: 0 4px 12px rgba(7, 83, 63, 0.15);
+}
+
+.user-avatar-sm {
+  width: 36px;
+  height: 36px;
+  background-color: var(--eh-indigo);
+  color: #ffffff;
+  font-size: 0.82rem;
+  flex-shrink: 0;
+}
+
+.user-avatar-xs {
+  width: 28px;
+  height: 28px;
+  background-color: var(--eh-indigo);
+  color: #ffffff;
+  font-size: 0.7rem;
+  flex-shrink: 0;
+}
+
+.author-avatar {
+  width: 38px;
+  height: 38px;
+  background-color: var(--eh-indigo);
+  color: #ffffff;
+  font-size: 0.85rem;
+}
+
+.text-xs {
+  font-size: 0.75rem;
+}
+
+.mini-book-spine {
+  width: 24px;
+  height: 38px;
+  flex-shrink: 0;
+  border-radius: 3px;
+}
+
+.post-card {
+  border-radius: 12px;
+  border: 1px solid var(--eh-border-subtle);
+  transition: border-color 0.2s ease;
+}
+
+.post-card:hover {
+  border-color: var(--eh-mauve);
+}
+
+/* 11. TOAST MINIMALISTA */
+.toast-minimal {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background-color: var(--eh-indigo);
+  color: #ffffff;
+  border: 1.5px solid var(--eh-gold);
+  padding: 10px 18px;
+  border-radius: 50rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  z-index: 1090;
+  opacity: 0;
+  transform: translateY(16px);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.toast-minimal.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.shelf-badge {
+  background-color: var(--eh-gold);
+  color: var(--eh-indigo);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.1rem 0.45rem;
+  border-radius: 50rem;
+  margin-left: 0.25rem;
+}
+
+/* 12. AJUSTES ESPECÍFICOS DE COMUNIDAD */
+.progress-bar.bg-success {
+  background-color: var(--eh-gold) !important;
+}
+
+.badge.text-bg-light.border.text-accent {
+  background-color: var(--eh-gold) !important;
+  color: var(--eh-indigo) !important;
+  border-color: rgba(7, 83, 63, 0.2) !important;
+}
+
+/* 13. AJUSTES RESPONSIVOS Y CENTRADO */
+@media (max-width: 767.98px) {
+  .toast-minimal {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    text-align: center;
+    border-radius: 12px;
+  }
+
+  .nav-social-item {
+    padding: 0.35rem 0.5rem;
+  }
+
+  .nav-social-icon {
+    font-size: 1.15rem;
+  }
+
+  .profile-banner {
+    height: 95px;
+  }
+
+  .user-avatar-lg {
+    width: 58px;
+    height: 58px;
+    margin-top: -29px;
+  }
+
+  .post-card .card-body {
+    padding: 1rem !important;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .hero-heading {
+    font-size: 1.85rem !important;
+    line-height: 1.25;
+  }
+
+  .card-minimal,
+  .club-minimal-card,
+  .book-card-minimal {
+    border-radius: 12px;
+  }
+}
+
+/* 14. SECCIÓN DE LECTURA VISUAL & ESTANTERÍA INTERACTIVA */
+.book-visual-mini {
+  width: 44px;
+  height: 64px;
+  border-radius: 3px 6px 6px 3px;
+  box-shadow: -2px 0 0 rgba(0, 0, 0, 0.25) inset, 2px 4px 10px rgba(7, 83, 63, 0.2);
+  position: relative;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  overflow: hidden;
+}
+
+.book-visual-mini:hover {
+  transform: rotateY(-8deg) scale(1.04);
+  box-shadow: 4px 8px 16px rgba(7, 83, 63, 0.3);
+}
+
+.book-visual-spine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.book-visual-ribbon {
+  position: absolute;
+  top: 0;
+  right: 5px;
+  width: 7px;
+  height: 14px;
+  background-color: var(--eh-gold);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 75%, 0 100%);
+  z-index: 1;
+}
+
+.book-visual-emboss {
+  width: 20px;
+  height: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+}
+
+.tracker-nav-pills {
+  background-color: rgba(217, 185, 155, 0.2);
+  border-radius: 10px;
+  padding: 3px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3px;
+  width: 100%;
+}
+
+.tracker-pill-btn {
+  border: none;
+  background: transparent;
+  color: var(--eh-plum);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.42rem 0.2rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-width: 0;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.tracker-pill-btn:hover {
+  color: var(--eh-indigo);
+  background-color: rgba(255, 255, 255, 0.65);
+}
+
+.tracker-pill-btn.active {
+  background-color: var(--eh-indigo);
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(7, 83, 63, 0.2);
+}
+
+.tracker-tab-text {
+  font-size: 0.71rem;
+  line-height: 1.2;
+}
+
+.tracker-tab-count {
+  font-size: 0.63rem;
+  line-height: 1;
+  padding: 2px 5px;
+  border-radius: 50rem;
+  background-color: rgba(7, 83, 63, 0.1);
+  color: var(--eh-indigo);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.tracker-pill-btn.active .tracker-tab-count {
+  background-color: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
+
+.genre-tag-removable {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 50rem;
+  background-color: rgba(250, 248, 253, 0.95);
+  border: 1px solid var(--eh-border-subtle);
+  color: var(--eh-indigo);
+  font-size: 0.74rem;
+  font-weight: 500;
+  transition: all 0.15s ease;
+}
+
+.genre-tag-removable:hover {
+  border-color: var(--eh-mauve);
+  background-color: #ffffff;
+}
+
+.genre-tag-remove-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--eh-plum);
+  font-size: 0.85rem;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.15s ease, color 0.15s ease;
+}
+
+.genre-tag-remove-btn:hover {
+  opacity: 1;
+  color: #dc3545;
+}
+
+.book-tracker-item {
+  background-color: #ffffff;
+  border: 1px solid var(--eh-border-subtle);
+  border-radius: 10px;
+  padding: 0.65rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.book-tracker-item:hover {
+  border-color: var(--eh-mauve);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(7, 83, 63, 0.08);
+}
+
+.progress-bar-glow {
+  background-color: var(--eh-gold) !important;
+  box-shadow: 0 0 8px rgba(248, 243, 43, 0.6);
+  transition: width 0.4s ease;
+}
+
+
+/* ==========================================================================
+   ESTILOS COMPONENTES ESTILO BOOKIFY
+   ========================================================================== */
+
+/* 1. Header & Logo Bookify */
+.navbar-minimal {
+  background-color: rgba(255, 252, 250, 0.95) !important;
+  border-bottom: 1px solid rgba(217, 185, 155, 0.35);
+}
+
+.logo-brand {
+  font-family: var(--eh-font-serif);
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: var(--eh-forest);
+  letter-spacing: -0.01em;
+}
+
+.btn-forest {
+  background-color: var(--eh-forest);
+  color: #ffffff !important;
+  border: 1px solid var(--eh-forest);
+  border-radius: 50rem;
+  font-weight: 600;
+  padding: 0.55rem 1.4rem;
+  transition: all 0.2s ease;
+}
+
+.btn-forest:hover {
+  background-color: var(--eh-pine);
+  border-color: var(--eh-pine);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(6, 61, 48, 0.25);
+}
+
+.btn-terracotta {
+  background-color: var(--eh-terracotta);
+  color: #ffffff !important;
+  border: 1px solid var(--eh-terracotta);
+  border-radius: 50rem;
+  font-weight: 600;
+  padding: 0.65rem 1.6rem;
+  transition: all 0.2s ease;
+}
+
+.btn-terracotta:hover {
+  background-color: #d66444;
+  border-color: #d66444;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(233, 120, 89, 0.35);
+}
+
+.btn-sand-pill {
+  background-color: var(--eh-sand);
+  color: var(--eh-pine) !important;
+  border: 1px solid var(--eh-sand);
+  border-radius: 50rem;
+  font-weight: 600;
+  padding: 0.45rem 1.25rem;
+  font-size: 0.88rem;
+  transition: all 0.2s ease;
+}
+
+.btn-sand-pill:hover {
+  background-color: #c9a785;
+  color: var(--eh-pine);
+}
+
+.btn-outline-terracotta {
+  background-color: transparent;
+  color: var(--eh-terracotta);
+  border: 1.5px solid var(--eh-terracotta);
+  border-radius: 50rem;
+  font-weight: 600;
+  padding: 0.55rem 1.5rem;
+  transition: all 0.2s ease;
+}
+
+.btn-outline-terracotta:hover {
+  background-color: var(--eh-terracotta);
+  color: #ffffff;
+}
+
+/* 2. Hero Section */
+.hero-bookify {
+  background-color: var(--eh-offwhite);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-title-main {
+  font-family: var(--eh-font-serif);
+  font-size: 3.5rem;
+  line-height: 1.12;
+  font-weight: 700;
+  color: var(--eh-forest);
+}
+
+.hero-title-coral {
+  color: var(--eh-terracotta);
+  display: block;
+}
+
+.hero-subtitle {
+  color: var(--eh-slate);
+  font-size: 1.05rem;
+  opacity: 0.85;
+}
+
+.hero-stamp-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 1.5px dashed var(--eh-forest);
+  color: var(--eh-forest);
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  position: relative;
+  animation: rotateBadge 20s linear infinite;
+  background-color: var(--eh-offwhite);
+}
+
+.hero-stamp-ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-stamp-arrow {
+  position: absolute;
+  font-size: 1.4rem;
+  animation: counterRotate 20s linear infinite;
+}
+
+@keyframes rotateBadge {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes counterRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
+}
+
+/* 3. Sección Premium Clubs (Fondo Verde Bosque Profundo) */
+.section-premium-green {
+  overflow-x: clip; /* evita scroll horizontal en móvil por las cartas apiladas */
+  background-color: var(--eh-pine);
+  color: #ffffff;
+}
+
+.section-premium-green .section-heading,
+.section-premium-green h2,
+.section-premium-green h3 {
+  color: #ffffff;
+}
+
+.pill-premium-author {
+  background-color: transparent;
+  border: 1px solid rgba(217, 185, 155, 0.4);
+  color: var(--eh-sand);
+  border-radius: 50rem;
+  padding: 0.35rem 1rem;
+  font-size: 0.82rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.pill-premium-author:hover,
+.pill-premium-author.active {
+  background-color: var(--eh-sand);
+  color: var(--eh-pine);
+  border-color: var(--eh-sand);
+  font-weight: 600;
+}
+
+.featured-photo-frame {
+  position: relative;
+  display: inline-block;
+}
+
+.featured-photo-frame::before,
+.featured-photo-frame::after {
+  content: "";
+  position: absolute;
+  border: 2px solid var(--eh-sand);
+  border-radius: 18px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.featured-photo-frame::before {
+  transform: rotate(4deg);
+  opacity: 0.65;
+}
+
+.featured-photo-frame::after {
+  transform: rotate(-3deg);
+  opacity: 0.4;
+}
+
+.featured-photo-img {
+  position: relative;
+  border-radius: 18px;
+  z-index: 2;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+  border: 3px solid rgba(255, 255, 255, 0.15);
+}
+
+/* 4. Tarjetas Bicolor "Join The Club" */
+.bookify-bicolor-card {
+  border-radius: 18px;
+  overflow: hidden;
+  border: none;
+  box-shadow: 0 6px 20px rgba(7, 83, 63, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.bookify-bicolor-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(7, 83, 63, 0.16);
+}
+
+.card-top-forest {
+  background: var(--eh-pine);
+  background-image: radial-gradient(circle at 50% 100%, rgba(7, 83, 63, 0.8), var(--eh-pine));
+  color: #ffffff;
+  padding: 1.5rem 1.25rem 2rem 1.25rem;
+  text-align: center;
+  position: relative;
+}
+
+.card-top-forest h3 {
+  color: #ffffff;
+  font-family: var(--eh-font-serif);
+  font-size: 1.15rem;
+  margin-bottom: 0.4rem;
+}
+
+.card-top-forest p {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.76rem;
+  line-height: 1.4;
+  margin-bottom: 0;
+}
+
+.card-bottom-sand {
+  background-color: var(--eh-sand);
+  padding: 2.2rem 1.25rem 1.25rem 1.25rem;
+  color: var(--eh-pine);
+  position: relative;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-avatar-bridge {
+  position: absolute;
+  top: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 3px solid #ffffff;
+  object-fit: cover;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  z-index: 5;
+}
+
+.card-mod-label {
+  font-size: 0.72rem;
+  color: #554336;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  text-align: center;
+  display: block;
+}
+
+.card-mod-name {
+  font-family: var(--eh-font-serif);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--eh-pine);
+  text-align: center;
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+.book-preview-snippet {
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 8px;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 1rem;
+}
+
+.btn-card-forest {
+  background-color: var(--eh-forest);
+  color: #ffffff !important;
+  border: none;
+  border-radius: 50rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 0.5rem 1rem;
+  width: 100%;
+  transition: all 0.2s ease;
+}
+
+.btn-card-forest:hover {
+  background-color: var(--eh-pine);
+}
+
+.btn-card-forest.joined {
+  background-color: var(--eh-terracotta);
+  color: #ffffff !important;
+}
+
+/* 5. Catálogo, Géneros & Newsletter adaptados con la nueva paleta */
+.book-card-minimal {
+  background-color: #ffffff;
+  border: 1px solid var(--eh-border-subtle);
+  border-radius: 14px;
+}
+
+.book-card-minimal:hover {
+  border-color: var(--eh-sand);
+}
+
+.btn-want {
+  background-color: #ffffff;
+  color: var(--eh-forest);
+  border: 1px solid var(--eh-sand);
+  border-radius: 50rem;
+}
+
+.btn-want:hover {
+  background-color: var(--eh-forest);
+  color: #ffffff;
+  border-color: var(--eh-forest);
+}
+
+.btn-want.added {
+  background-color: var(--eh-terracotta);
+  color: #ffffff;
+  border-color: var(--eh-terracotta);
+}
+
+.genre-pill-minimal {
+  background-color: #ffffff;
+  border: 1px solid var(--eh-sand);
+  color: var(--eh-forest);
+}
+
+.genre-pill-minimal:hover {
+  background-color: var(--eh-forest);
+  color: #ffffff;
+  border-color: var(--eh-forest);
+}
+
+.card-newsletter-warm {
+  background-color: var(--eh-peach);
+  border: 1.5px solid var(--eh-sand);
+  border-radius: 18px;
+}
+
+/* Toast flotante adaptado */
+.toast-minimal {
+  background-color: var(--eh-pine);
+  border: 1.5px solid var(--eh-terracotta);
+  color: #ffffff;
+}
+
+/* Shelf badge */
+.shelf-badge {
+  background-color: var(--eh-terracotta);
+  color: #ffffff;
+}
+
+/* Botones genéricos de navbar */
+.btn-dark-minimal {
+  background-color: var(--eh-forest);
+  border-color: var(--eh-forest);
+}
+
+.btn-dark-minimal:hover {
+  background-color: var(--eh-pine);
+  border-color: var(--eh-pine);
+}
+
+.btn-outline-minimal {
+  border-color: var(--eh-sand);
+  color: var(--eh-forest);
+}
+
+.btn-outline-minimal:hover {
+  background-color: var(--eh-peach);
+  color: var(--eh-forest);
+  border-color: var(--eh-forest);
+}
+
+.badge-minimal {
+  background-color: var(--eh-peach);
+  color: var(--eh-forest);
+  border: 1px solid var(--eh-sand);
+}
+
+.badge-gold {
+  background-color: var(--eh-terracotta);
+  color: #ffffff;
+}
+
+.highlight-gold {
+  background: linear-gradient(120deg, rgba(233, 120, 89, 0.25) 0%, rgba(233, 120, 89, 0.5) 100%);
+  color: var(--eh-pine);
+}
+
+.star-rating {
+  color: var(--eh-terracotta);
+}
+
+/* ==========================================================================
+   CARRUSEL DE CARTAS APILADAS / STACKED CARDS CAROUSEL (SWIPER-STYLE)
+   ========================================================================== */
+
+.cards-deck-stage {
+  --card-w: min(270px, 66vw);
+  --card-h: calc(var(--card-w) * 1.3);
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  height: var(--card-h);
+  margin: 0 auto;
+  perspective: 1200px;
+  touch-action: pan-y;
+  user-select: none;
+  outline: none;
+}
+
+.cards-deck-stage:focus-visible {
+  outline: 2px solid var(--eh-sand);
+  outline-offset: 14px;
+  border-radius: 24px;
+}
+
+/* Cada carta se posiciona con 2 variables que pone el JS:
+   --offset (distancia a la carta activa, con signo) y --abs-offset (sin signo).
+   Cuanto más lejos del centro: más corrida, más atrás, más girada, más chica y más borrosa. */
+.deck-card {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: var(--card-w);
+  height: var(--card-h);
+  margin-left: calc(var(--card-w) / -2);
+  border-radius: 20px;
+  overflow: hidden;
+  background-color: var(--eh-pine);
+  border: 2px solid rgba(217, 185, 155, 0.7);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
+  cursor: pointer;
+  transform:
+    translateX(calc(var(--offset, 0) * 70%))
+    translateZ(calc(var(--abs-offset, 0) * -150px))
+    rotateY(calc(var(--offset, 0) * -32deg))
+    scale(calc(1 - var(--abs-offset, 0) * 0.04));
+  filter: blur(calc(var(--abs-offset, 0) * 2.5px)) brightness(calc(1 - var(--abs-offset, 0) * 0.22));
+  opacity: calc(1 - var(--abs-offset, 0) * 0.08);
+  transition: transform 0.55s cubic-bezier(0.22, 0.8, 0.25, 1),
+              filter 0.55s ease,
+              opacity 0.55s ease;
+  will-change: transform;
+}
+
+.deck-card.is-active {
+  cursor: default;
+  box-shadow: 0 22px 48px rgba(0, 0, 0, 0.55);
+}
+
+.deck-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+}
+
+/* Marco dorado interno */
+.deck-card::after {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1.5px solid rgba(217, 185, 155, 0.85);
+  border-radius: 14px;
+  pointer-events: none;
+}
+
+/* Nombre y rol sobre la foto */
+.deck-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 2.6rem 1.1rem 1.2rem;
+  text-align: center;
+  color: #fff;
+  background: linear-gradient(to top, rgba(7, 83, 63, 0.95) 15%, rgba(7, 83, 63, 0));
+  z-index: 1;
+}
+
+.deck-caption strong {
+  display: block;
+  font-family: var(--eh-font-serif);
+  font-size: 1.1rem;
+  line-height: 1.2;
+}
+
+.deck-caption span {
+  font-size: 0.78rem;
+  color: var(--eh-sand);
+  letter-spacing: 0.02em;
+}
+
+/* Fade suave del texto al cambiar de autora */
+#author-active-title,
+#author-active-desc,
+#author-active-extra {
+  transition: opacity 0.18s ease;
+}
+
+.ficha-fade {
+  opacity: 0;
+}
+
+.deck-nav-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .deck-card,
+  #author-active-title,
+  #author-active-desc,
+  #author-active-extra {
+    transition: none;
+  }
+}
+
+/* Flechas de navegación minimalistas estilo Bookify */
+.deck-nav-btn {
+  background: transparent;
+  border: 1.5px solid var(--eh-sand);
+  color: var(--eh-sand);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  line-height: 1;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.deck-nav-btn:hover {
+  background-color: var(--eh-sand);
+  color: var(--eh-pine);
+  transform: scale(1.08);
+}

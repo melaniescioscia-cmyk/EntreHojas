@@ -1,0 +1,657 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Clubs de Lectura en EntreHojas - Salas de debate sincronizadas por capítulos sin spoilers, calendario semanal y comunidad lectora.">
+  <meta name="theme-color" content="#07533F">
+  <title>Clubs de Lectura | EntreHojas</title>
+
+  <!-- Preconexión a fuentes y CDNs -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../imgs/libro-abierto.png">
+
+  <!-- Bootstrap 5.3 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Estilos propios minimalistas con tipografía Rubik Variable -->
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body class="bg-page">
+
+  <!-- ============================================== -->
+  <!-- 1. BARRA DE NAVEGACIÓN GLOBAL RESPONSIVA       -->
+  <!-- ============================================== -->
+  <header class="sticky-top navbar-minimal">
+    <nav class="navbar navbar-expand-lg py-2 py-lg-3" aria-label="Navegación principal">
+      <div class="container">
+
+        <!-- Logotipo EntreHojas -->
+        <a class="navbar-brand d-flex align-items-center gap-2 logo-brand text-decoration-none" href="../index.html">
+          <img src="../imgs/libro-abierto.png" alt="Logo EntreHojas" class="logo-img" width="28" height="28">
+          <span>Entre<span class="text-accent">Hojas</span></span>
+        </a>
+
+        <!-- Buscador integrado (escritorio y tablet) -->
+        <form class="d-none d-md-flex search-minimal mx-lg-3 flex-grow-1" style="max-width: 320px;" role="search"
+          id="form-busqueda" onsubmit="event.preventDefault(); buscarClub();">
+          <div class="input-group">
+            <input type="search" id="input-busqueda" class="form-control rounded-start-pill border-end-0"
+              placeholder="Buscar clubs de lectura..." aria-label="Buscar clubs">
+            <button class="btn btn-search rounded-end-pill px-3" type="submit" aria-label="Ejecutar búsqueda">
+              <img src="../imgs/lupa.png" alt="Buscar" class="icon-search" width="18" height="18">
+            </button>
+          </div>
+        </form>
+
+        <!-- Botón hamburguesa responsive para móviles -->
+        <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse"
+          data-bs-target="#menuClubs" aria-controls="menuClubs" aria-expanded="false"
+          aria-label="Abrir menú de navegación">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Menú colapsable con enlaces y acciones -->
+        <div class="collapse navbar-collapse" id="menuClubs">
+          <!-- Buscador exclusivo para móvil dentro del menú colapsable -->
+          <div class="d-md-none my-3">
+            <form role="search" onsubmit="event.preventDefault(); buscarClub();">
+              <div class="input-group">
+                <input type="search" class="form-control rounded-start-pill border-end-0"
+                  placeholder="Buscar clubs de lectura..." aria-label="Buscar clubs en móvil"
+                  oninput="const mainInput = document.getElementById('input-busqueda'); if(mainInput) { mainInput.value = this.value; }">
+                <button class="btn btn-search rounded-end-pill px-3" type="submit" aria-label="Ejecutar búsqueda">
+                  <img src="../imgs/lupa.png" alt="Buscar" class="icon-search" width="18" height="18">
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1 my-2 my-lg-0 text-center text-lg-start">
+            <li class="nav-item">
+              <a class="nav-link" href="../index.html">Inicio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="clubs.html">Clubs</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="libros.html">Libros</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="comunidad.html">Comunidad</a>
+            </li>
+          </ul>
+
+          <!-- Acciones de usuario centradas en móvil -->
+          <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-2 ms-lg-3 flex-nowrap flex-shrink-0 pt-2 pt-lg-0 mt-2 mt-lg-0">
+            <button type="button" class="btn btn-outline-minimal px-3 py-1 d-flex align-items-center text-nowrap"
+              id="btn-ver-estante" onclick="verEstanteria();" aria-label="Ver mi estante de lectura">
+              <img src="../imgs/libro.png" alt="Estante" class="icon-estante me-1" width="20" height="20">
+              <span class="ms-1">Mi Estante</span>
+              <span class="shelf-badge" id="shelf-counter">0</span>
+            </button>
+            <a href="#clubs-grid" class="btn btn-dark-minimal px-3 py-1 text-nowrap">
+              Explorar
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ============================================== -->
+    <!-- 2. ENCABEZADO HERO DE LA SECCIÓN               -->
+    <!-- ============================================== -->
+    <section class="py-5 bg-white border-bottom">
+      <div class="container py-lg-3 text-center text-lg-start">
+        <div class="row align-items-center g-4">
+          <div class="col-lg-7">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb text-xs mb-2 justify-content-center justify-content-lg-start">
+                <li class="breadcrumb-item"><a href="../index.html" class="text-decoration-none text-muted">Inicio</a></li>
+                <li class="breadcrumb-item active text-dark fw-bold" aria-current="page">Clubs de Lectura</li>
+              </ol>
+            </nav>
+            <span class="badge-minimal mb-2">SECCIÓN INFORMATIVA A</span>
+            <h1 class="h2 fw-bold text-dark mb-2">Clubs de Lectura por Capítulos</h1>
+            <p class="text-muted lead fs-6 mb-4">
+              Salas de debate sincrónicas y asincrónicas organizadas por hitos semanales. Lee a tu propio ritmo y comenta únicamente los capítulos que ya has finalizado, 100% libre de spoilers.
+            </p>
+            <div class="d-flex flex-wrap gap-2 justify-content-center justify-content-lg-start">
+              <a href="#clubs-grid" class="btn btn-dark-minimal px-4 py-2">
+                Ver Clubs Disponibles
+              </a>
+              <a href="#tabla-cronograma" class="btn btn-outline-minimal px-4 py-2">
+                Cronograma Semanal
+              </a>
+            </div>
+          </div>
+          <div class="col-lg-5">
+            <div class="card-minimal p-3 text-center">
+              <div class="p-3 bg-page rounded-3 border mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="badge-minimal badge-gold">EN DIRECTO</span>
+                  <small class="text-muted text-xs">Sala Activa</small>
+                </div>
+                <strong class="h6 d-block mb-1 text-dark">Clásicos Inmortales &bull; Cap. 8</strong>
+                <p class="text-muted text-xs mb-2">Debate en curso: "El ascenso y soledad del Coronel Aureliano"</p>
+                <div class="progress-minimal mb-2" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">
+                  <div class="progress-minimal-bar" style="width: 40%;"></div>
+                </div>
+                <small class="text-muted text-xs">42 lectores participando activamente ahora</small>
+              </div>
+              <small class="text-muted text-xs d-block">
+                Moderación experta &bull; Respeto absoluto del ritmo de lectura
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- 3. CUADRÍCULA DE CLUBS CON FILTROS             -->
+    <!-- ============================================== -->
+    <section class="py-5 bg-page border-bottom" id="clubs-grid">
+      <div class="container py-lg-3">
+
+        <!-- Encabezado y Filtros por Categoría -->
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-4 gap-3">
+          <div>
+            <span class="badge-minimal mb-2">COMUNIDAD ACTIVA</span>
+            <h2 class="section-heading h3 mb-1">Clubs Destacados de la Temporada</h2>
+            <p class="text-muted small mb-0">
+              Selecciona tu género favorito, revisa el libro en curso y súmate con un solo clic.
+            </p>
+          </div>
+
+          <!-- Píldoras de filtro -->
+          <div class="d-flex gap-1 gap-sm-2 flex-wrap justify-content-center justify-content-md-end" id="club-filters" role="tablist">
+            <button type="button" class="filter-tab-pill active" onclick="filtrarClubs('todos', this);">Todos</button>
+            <button type="button" class="filter-tab-pill" onclick="filtrarClubs('clasicos', this);">Clásicos</button>
+            <button type="button" class="filter-tab-pill" onclick="filtrarClubs('fantasia', this);">Fantasía</button>
+            <button type="button" class="filter-tab-pill" onclick="filtrarClubs('distopia', this);">Distopía</button>
+            <button type="button" class="filter-tab-pill" onclick="filtrarClubs('misterio', this);">Misterio</button>
+          </div>
+        </div>
+
+        <!-- Tarjetas de Clubs -->
+        <div class="row g-4" id="clubs-container">
+
+          <!-- Club 1: Clásicos -->
+          <div class="col-12 col-md-6 col-lg-3 club-item" data-category="clasicos">
+            <article class="club-minimal-card h-100">
+              <div>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="badge-minimal badge-gold">Oficial</span>
+                  <small class="text-muted text-xs">Semana 3</small>
+                </div>
+                <h3 class="h6 fw-bold mb-1 club-title">Clásicos Inmortales</h3>
+                <p class="text-muted text-xs mb-3">Grandes obras literarias analizadas con mirada actual.</p>
+
+                <div class="d-flex align-items-center gap-2 p-2 rounded-2 bg-page mb-3 border">
+                  <div class="mini-book-spine cover-marron" aria-hidden="true"></div>
+                  <div class="overflow-hidden">
+                    <strong class="d-block small text-truncate">Cien Años de Soledad</strong>
+                    <span class="text-accent text-xs">Hito: Cap. 8 de 20</span>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <div class="d-flex justify-content-between text-xs text-muted mb-1">
+                    <span>Avance</span>
+                    <strong>40%</strong>
+                  </div>
+                  <div class="progress-minimal" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">
+                    <div class="progress-minimal-bar" style="width: 40%;"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <div class="d-flex justify-content-between align-items-center text-xs text-muted pt-2 border-top mb-3">
+                  <span>Mod: Clara V.</span>
+                  <span><span class="members-count">1.840</span> lectores</span>
+                </div>
+                <button type="button" class="btn btn-outline-minimal w-100 py-1"
+                  onclick="unirseClub(this, 'Clásicos Inmortales');">
+                  Unirme al Club
+                </button>
+              </div>
+            </article>
+          </div>
+
+          <!-- Club 2: Fantasía -->
+          <div class="col-12 col-md-6 col-lg-3 club-item" data-category="fantasia">
+            <article class="club-minimal-card h-100">
+              <div>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="badge-minimal">Fantasía</span>
+                  <small class="text-muted text-xs">Semana 6</small>
+                </div>
+                <h3 class="h6 fw-bold mb-1 club-title">Crónicas Fantásticas</h3>
+                <p class="text-muted text-xs mb-3">Sagas épicas, sistemas de magia y debates de lore.</p>
+
+                <div class="d-flex align-items-center gap-2 p-2 rounded-2 bg-page mb-3 border">
+                  <div class="mini-book-spine cover-verde" aria-hidden="true"></div>
+                  <div class="overflow-hidden">
+                    <strong class="d-block small text-truncate">El Nombre del Viento</strong>
+                    <span class="text-accent text-xs">Hito: Cap. 35 de 92</span>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <div class="d-flex justify-content-between text-xs text-muted mb-1">
+                    <span>Avance</span>
+                    <strong>38%</strong>
+                  </div>
+                  <div class="progress-minimal" role="progressbar" aria-valuenow="38" aria-valuemin="0" aria-valuemax="100">
+                    <div class="progress-minimal-bar" style="width: 38%;"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <div class="d-flex justify-content-between align-items-center text-xs text-muted pt-2 border-top mb-3">
+                  <span>Mod: Lucas P.</span>
+                  <span><span class="members-count">2.450</span> lectores</span>
+                </div>
+                <button type="button" class="btn btn-outline-minimal w-100 py-1"
+                  onclick="unirseClub(this, 'Crónicas Fantásticas');">
+                  Unirme al Club
+                </button>
+              </div>
+            </article>
+          </div>
+
+          <!-- Club 3: Distopía -->
+          <div class="col-12 col-md-6 col-lg-3 club-item" data-category="distopia">
+            <article class="club-minimal-card h-100">
+              <div>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="badge-minimal">Distopía</span>
+                  <small class="text-muted text-xs">Semana 2</small>
+                </div>
+                <h3 class="h6 fw-bold mb-1 club-title">Distopías del Mañana</h3>
+                <p class="text-muted text-xs mb-3">Futuros posibles, dilemas éticos y control social.</p>
+
+                <div class="d-flex align-items-center gap-2 p-2 rounded-2 bg-page mb-3 border">
+                  <div class="mini-book-spine cover-azul" aria-hidden="true"></div>
+                  <div class="overflow-hidden">
+                    <strong class="d-block small text-truncate">1984</strong>
+                    <span class="text-accent text-xs">Hito: Parte 2, Cap. 3</span>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <div class="d-flex justify-content-between text-xs text-muted mb-1">
+                    <span>Avance</span>
+                    <strong>55%</strong>
+                  </div>
+                  <div class="progress-minimal" role="progressbar" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100">
+                    <div class="progress-minimal-bar" style="width: 55%;"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <div class="d-flex justify-content-between align-items-center text-xs text-muted pt-2 border-top mb-3">
+                  <span>Mod: Ana B.</span>
+                  <span><span class="members-count">980</span> lectores</span>
+                </div>
+                <button type="button" class="btn btn-outline-minimal w-100 py-1"
+                  onclick="unirseClub(this, 'Distopías del Mañana');">
+                  Unirme al Club
+                </button>
+              </div>
+            </article>
+          </div>
+
+          <!-- Club 4: Misterio -->
+          <div class="col-12 col-md-6 col-lg-3 club-item" data-category="misterio">
+            <article class="club-minimal-card h-100">
+              <div>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="badge-minimal">Misterio</span>
+                  <small class="text-muted text-xs">Semana 4</small>
+                </div>
+                <h3 class="h6 fw-bold mb-1 club-title">Misterios de Medianoche</h3>
+                <p class="text-muted text-xs mb-3">Novelas de intriga, secretos góticos y enigmas.</p>
+
+                <div class="d-flex align-items-center gap-2 p-2 rounded-2 bg-page mb-3 border">
+                  <div class="mini-book-spine cover-vino" aria-hidden="true"></div>
+                  <div class="overflow-hidden">
+                    <strong class="d-block small text-truncate">La Sombra del Viento</strong>
+                    <span class="text-accent text-xs">Hito: Cap. 14 de 35</span>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <div class="d-flex justify-content-between text-xs text-muted mb-1">
+                    <span>Avance</span>
+                    <strong>40%</strong>
+                  </div>
+                  <div class="progress-minimal" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">
+                    <div class="progress-minimal-bar" style="width: 40%;"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <div class="d-flex justify-content-between align-items-center text-xs text-muted pt-2 border-top mb-3">
+                  <span>Mod: Marcos D.</span>
+                  <span><span class="members-count">1.210</span> lectores</span>
+                </div>
+                <button type="button" class="btn btn-outline-minimal w-100 py-1"
+                  onclick="unirseClub(this, 'Misterios de Medianoche');">
+                  Unirme al Club
+                </button>
+              </div>
+            </article>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- 4. TABLA COMPARATIVA Y CRONOGRAMA SEMANAL      -->
+    <!-- ============================================== -->
+    <section class="py-5 bg-white border-bottom" id="tabla-cronograma">
+      <div class="container py-lg-3">
+        <div class="text-center col-lg-8 mx-auto mb-4">
+          <span class="badge-minimal mb-2">PLANIFICACIÓN</span>
+          <h2 class="section-heading h3 mb-2">Cronograma Semanal de Salas y Debates</h2>
+          <p class="text-muted small mb-0">
+            Consulta los hitos actuales y planifica tu tiempo de lectura para llegar a cada debate sin spoilers.
+          </p>
+        </div>
+
+        <!-- Tabla responsiva de Bootstrap -->
+        <div class="table-responsive rounded-3 border shadow-sm">
+          <table class="table table-hover align-middle mb-0 bg-white text-xs text-md-small">
+            <thead class="table-light">
+              <tr>
+                <th scope="col" class="py-3 px-3">Club</th>
+                <th scope="col" class="py-3 px-2">Lectura Activa</th>
+                <th scope="col" class="py-3 px-2">Hito Semanal</th>
+                <th scope="col" class="py-3 px-2">Moderador</th>
+                <th scope="col" class="py-3 px-2">Día de Debate</th>
+                <th scope="col" class="py-3 px-3 text-center">Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="px-3 py-3 fw-bold text-dark">Clásicos Inmortales</td>
+                <td class="px-2">Cien Años de Soledad</td>
+                <td class="px-2 text-accent fw-semibold">Capítulo 8</td>
+                <td class="px-2 text-muted">Clara V.</td>
+                <td class="px-2">Jueves 20:00 hs</td>
+                <td class="px-3 text-center"><span class="badge text-bg-warning px-2 py-1">En Directo</span></td>
+              </tr>
+              <tr>
+                <td class="px-3 py-3 fw-bold text-dark">Crónicas Fantásticas</td>
+                <td class="px-2">El Nombre del Viento</td>
+                <td class="px-2 text-accent fw-semibold">Capítulos 35 a 45</td>
+                <td class="px-2 text-muted">Lucas P.</td>
+                <td class="px-2">Viernes 21:00 hs</td>
+                <td class="px-3 text-center"><span class="badge text-bg-light border text-accent px-2 py-1">Programado</span></td>
+              </tr>
+              <tr>
+                <td class="px-3 py-3 fw-bold text-dark">Distopías del Mañana</td>
+                <td class="px-2">1984</td>
+                <td class="px-2 text-accent fw-semibold">Parte 2 (Completa)</td>
+                <td class="px-2 text-muted">Ana B.</td>
+                <td class="px-2">Sábado 18:30 hs</td>
+                <td class="px-3 text-center"><span class="badge text-bg-light border text-accent px-2 py-1">Programado</span></td>
+              </tr>
+              <tr>
+                <td class="px-3 py-3 fw-bold text-dark">Misterios de Medianoche</td>
+                <td class="px-2">La Sombra del Viento</td>
+                <td class="px-2 text-accent fw-semibold">Capítulos 14 a 19</td>
+                <td class="px-2 text-muted">Marcos D.</td>
+                <td class="px-2">Domingo 19:00 hs</td>
+                <td class="px-3 text-center"><span class="badge text-bg-light border text-accent px-2 py-1">Programado</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============================================== -->
+  <!-- 5. PIE DE PÁGINA                              -->
+  <!-- ============================================== -->
+  <footer class="py-5 bg-page border-top">
+    <div class="container">
+      <div class="row g-4 mb-4">
+
+        <div class="col-lg-5">
+          <a class="d-flex align-items-center gap-2 logo-brand mb-2 text-decoration-none" href="../index.html">
+            <img src="../imgs/libro-abierto.png" alt="Logo EntreHojas" class="logo-img" width="28" height="28">
+            <span>Entre<span class="text-accent">Hojas</span></span>
+          </a>
+          <p class="text-muted small mb-0 col-lg-10">
+            Comunidad digital para descubrir, organizar y compartir lecturas en clubs organizados capítulo a capítulo.
+          </p>
+        </div>
+
+        <div class="col-6 col-lg-2 offset-lg-1">
+          <h4 class="h6 fw-bold mb-3">Navegación</h4>
+          <ul class="list-unstyled small d-flex flex-column gap-2 text-muted">
+            <li><a href="../index.html" class="text-decoration-none text-muted">Inicio</a></li>
+            <li><a href="clubs.html" class="text-accent fw-bold text-decoration-none">Clubs Activos</a></li>
+            <li><a href="libros.html" class="text-decoration-none text-muted">Catálogo de Libros</a></li>
+            <li><a href="comunidad.html" class="text-decoration-none text-muted">Comunidad</a></li>
+          </ul>
+        </div>
+
+        <div class="col-6 col-lg-2">
+          <h4 class="h6 fw-bold mb-3">Comunidad</h4>
+          <ul class="list-unstyled small d-flex flex-column gap-2 text-muted">
+            <li><a href="comunidad.html" class="text-decoration-none text-muted">Muro Social</a></li>
+            <li><a href="comunidad.html" class="text-decoration-none text-muted">Mi Perfil</a></li>
+            <li><a href="../index.html#newsletter-sec" class="text-decoration-none text-muted">Boletín Semanal</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-2">
+          <h4 class="h6 fw-bold mb-3">EntreHojas</h4>
+          <ul class="list-unstyled small d-flex flex-column gap-2 text-muted">
+            <li><a href="#" class="text-decoration-none text-muted">Sobre nosotros</a></li>
+            <li><a href="#" class="text-decoration-none text-muted">Privacidad</a></li>
+            <li><a href="#" class="text-decoration-none text-muted">Términos</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="border-top pt-3 d-flex flex-column flex-sm-row justify-content-between align-items-center text-muted small gap-2">
+        <div>&copy; 2026 EntreHojas. Todos los derechos reservados.</div>
+        <div class="d-flex gap-3">
+          <a href="#" class="text-muted text-decoration-none">Volver arriba &uarr;</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Panel lateral Offcanvas "Mi Estante" -->
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasEstante" aria-labelledby="offcanvasEstanteLabel">
+    <div class="offcanvas-header border-bottom">
+      <h5 class="offcanvas-title fw-bold d-flex align-items-center gap-2" id="offcanvasEstanteLabel">
+        <img src="../imgs/libro.png" alt="Estante" class="icon-estante" width="22" height="22">
+        <span>Mi Estante de Lectura</span>
+      </h5>
+      <button type="button" class="btn-close shadow-none" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
+    </div>
+    <div class="offcanvas-body d-flex flex-column justify-content-between">
+      <div id="estante-items-list" class="d-flex flex-column gap-3"></div>
+      <div class="pt-3 border-top mt-auto">
+        <small class="text-muted d-block text-center mb-2">Tus libros se guardan automáticamente en tu navegador.</small>
+        <button type="button" class="btn btn-outline-minimal w-100 py-1" data-bs-dismiss="offcanvas">
+          Seguir explorando
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notificación Toast Minimalista -->
+  <div class="toast-minimal" id="minimal-toast" role="alert" aria-live="assertive">
+    <span id="toast-message">Notificación</span>
+  </div>
+
+  <!-- Bootstrap 5.3 Bundle con JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Lógica Interactiva -->
+  <script>
+    const STORAGE_KEY_SHELF = 'entrehojas_user_shelf';
+    const STORAGE_KEY_CLUBS = 'entrehojas_user_clubs';
+    let estanteItems = [];
+    let clubsUnidos = [];
+
+    try {
+      const savedShelf = localStorage.getItem(STORAGE_KEY_SHELF);
+      if (savedShelf) estanteItems = JSON.parse(savedShelf);
+
+      const savedClubs = localStorage.getItem(STORAGE_KEY_CLUBS);
+      if (savedClubs) clubsUnidos = JSON.parse(savedClubs);
+    } catch (e) {
+      console.warn('LocalStorage error:', e);
+    }
+
+    function mostrarToast(mensaje) {
+      const toast = document.getElementById('minimal-toast');
+      const toastMsg = document.getElementById('toast-message');
+      if (!toast || !toastMsg) return;
+      toastMsg.textContent = mensaje;
+      toast.classList.add('show');
+      clearTimeout(window.toastTimer);
+      window.toastTimer = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    function sincronizarEstante() {
+      const counterEl = document.getElementById('shelf-counter');
+      if (counterEl) counterEl.textContent = estanteItems.length;
+    }
+
+    function verEstanteria() {
+      const listContainer = document.getElementById('estante-items-list');
+      if (!listContainer) return;
+
+      if (estanteItems.length === 0) {
+        listContainer.innerHTML = `
+          <div class="text-center py-5 text-muted">
+            <img src="../imgs/libro.png" alt="" style="width: 40px; height: 40px; opacity: 0.6;" class="d-block mx-auto mb-2">
+            <p class="small mb-1">Tu estante de lectura está vacío.</p>
+            <small class="text-xs">Ve a la sección de Libros y haz clic en "+ Quiero leer".</small>
+          </div>
+        `;
+      } else {
+        listContainer.innerHTML = estanteItems.map(book => `
+          <div class="d-flex justify-content-between align-items-center p-2 rounded-2 bg-page border">
+            <div class="d-flex align-items-center gap-2 overflow-hidden">
+              <span class="text-accent" aria-hidden="true">&#128214;</span>
+              <strong class="small text-truncate">${book}</strong>
+            </div>
+            <button type="button" class="btn btn-sm btn-link text-danger text-decoration-none p-0 px-2"
+              onclick="quitarDeEstante('${book}');" title="Quitar de mi estante">
+              &times;
+            </button>
+          </div>
+        `).join('');
+      }
+
+      const offcanvasEl = document.getElementById('offcanvasEstante');
+      if (offcanvasEl) {
+        bootstrap.Offcanvas.getOrCreateInstance(offcanvasEl).show();
+      }
+    }
+
+    function quitarDeEstante(bookTitle) {
+      estanteItems = estanteItems.filter(item => item !== bookTitle);
+      try {
+        localStorage.setItem(STORAGE_KEY_SHELF, JSON.stringify(estanteItems));
+      } catch (e) {}
+      sincronizarEstante();
+      verEstanteria();
+      mostrarToast(`"${bookTitle}" eliminado de tu estante.`);
+    }
+
+    function unirseClub(btn, clubNombre) {
+      if (clubsUnidos.includes(clubNombre)) {
+        clubsUnidos = clubsUnidos.filter(c => c !== clubNombre);
+        btn.classList.remove('btn-dark-minimal');
+        btn.classList.add('btn-outline-minimal');
+        btn.textContent = 'Unirme al Club';
+        mostrarToast(`Has salido del club "${clubNombre}".`);
+      } else {
+        clubsUnidos.push(clubNombre);
+        btn.classList.remove('btn-outline-minimal');
+        btn.classList.add('btn-dark-minimal');
+        btn.innerHTML = '&#10003; Miembro activo';
+        mostrarToast(`¡Bienvenido al club "${clubNombre}"!`);
+      }
+      try {
+        localStorage.setItem(STORAGE_KEY_CLUBS, JSON.stringify(clubsUnidos));
+      } catch (e) {}
+    }
+
+    function sincronizarClubs() {
+      document.querySelectorAll('#clubs-container .club-item').forEach(card => {
+        const title = card.querySelector('.club-title')?.textContent.trim();
+        const btn = card.querySelector('button');
+        if (title && btn && clubsUnidos.includes(title)) {
+          btn.classList.remove('btn-outline-minimal');
+          btn.classList.add('btn-dark-minimal');
+          btn.innerHTML = '&#10003; Miembro activo';
+        }
+      });
+    }
+
+    function filtrarClubs(cat, btn) {
+      document.querySelectorAll('#club-filters .filter-tab-pill').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      const items = document.querySelectorAll('#clubs-container .club-item');
+      items.forEach(item => {
+        if (cat === 'todos' || item.getAttribute('data-category') === cat) {
+          item.classList.remove('d-none');
+        } else {
+          item.classList.add('d-none');
+        }
+      });
+    }
+
+    function buscarClub() {
+      const q = (document.getElementById('input-busqueda')?.value || '').toLowerCase().trim();
+      const items = document.querySelectorAll('#clubs-container .club-item');
+      let matches = 0;
+      items.forEach(item => {
+        const text = item.textContent.toLowerCase();
+        if (!q || text.includes(q)) {
+          item.classList.remove('d-none');
+          matches++;
+        } else {
+          item.classList.add('d-none');
+        }
+      });
+      if (q) mostrarToast(`Clubs: ${matches} resultado(s) encontrado(s).`);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      sincronizarEstante();
+      sincronizarClubs();
+    });
+  </script>
+</body>
+</html>

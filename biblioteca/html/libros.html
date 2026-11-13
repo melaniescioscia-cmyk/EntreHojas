@@ -1,0 +1,568 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Catálogo de Libros y Géneros Literarios en EntreHojas - Descubre obras recomendadas, añade lecturas a tu estante y explora por temáticas.">
+  <meta name="theme-color" content="#07533F">
+  <title>Catálogo de Libros &amp; Géneros | EntreHojas</title>
+
+  <!-- Preconexión a fuentes y CDNs -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../imgs/libro-abierto.png">
+
+  <!-- Bootstrap 5.3 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Estilos propios minimalistas con tipografía Rubik Variable -->
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body class="bg-page">
+
+  <!-- ============================================== -->
+  <!-- 1. BARRA DE NAVEGACIÓN GLOBAL RESPONSIVA       -->
+  <!-- ============================================== -->
+  <header class="sticky-top navbar-minimal">
+    <nav class="navbar navbar-expand-lg py-2 py-lg-3" aria-label="Navegación principal">
+      <div class="container">
+
+        <!-- Logotipo EntreHojas -->
+        <a class="navbar-brand d-flex align-items-center gap-2 logo-brand text-decoration-none" href="../index.html">
+          <img src="../imgs/libro-abierto.png" alt="Logo EntreHojas" class="logo-img" width="28" height="28">
+          <span>Entre<span class="text-accent">Hojas</span></span>
+        </a>
+
+        <!-- Buscador integrado (escritorio y tablet) -->
+        <form class="d-none d-md-flex search-minimal mx-lg-3 flex-grow-1" style="max-width: 320px;" role="search"
+          id="form-busqueda" onsubmit="event.preventDefault(); buscarLibro();">
+          <div class="input-group">
+            <input type="search" id="input-busqueda" class="form-control rounded-start-pill border-end-0"
+              placeholder="Buscar libros o autores..." aria-label="Buscar libros">
+            <button class="btn btn-search rounded-end-pill px-3" type="submit" aria-label="Ejecutar búsqueda">
+              <img src="../imgs/lupa.png" alt="Buscar" class="icon-search" width="18" height="18">
+            </button>
+          </div>
+        </form>
+
+        <!-- Botón hamburguesa responsive para móviles -->
+        <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse"
+          data-bs-target="#menuLibros" aria-controls="menuLibros" aria-expanded="false"
+          aria-label="Abrir menú de navegación">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Menú colapsable con enlaces y acciones -->
+        <div class="collapse navbar-collapse" id="menuLibros">
+          <!-- Buscador exclusivo para móvil dentro del menú colapsable -->
+          <div class="d-md-none my-3">
+            <form role="search" onsubmit="event.preventDefault(); buscarLibro();">
+              <div class="input-group">
+                <input type="search" class="form-control rounded-start-pill border-end-0"
+                  placeholder="Buscar libros o autores..." aria-label="Buscar libros en móvil"
+                  oninput="const mainInput = document.getElementById('input-busqueda'); if(mainInput) { mainInput.value = this.value; }">
+                <button class="btn btn-search rounded-end-pill px-3" type="submit" aria-label="Ejecutar búsqueda">
+                  <img src="../imgs/lupa.png" alt="Buscar" class="icon-search" width="18" height="18">
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1 my-2 my-lg-0 text-center text-lg-start">
+            <li class="nav-item">
+              <a class="nav-link" href="../index.html">Inicio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="clubs.html">Clubs</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="libros.html">Libros</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="comunidad.html">Comunidad</a>
+            </li>
+          </ul>
+
+          <!-- Acciones de usuario centradas en móvil -->
+          <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-2 ms-lg-3 flex-nowrap flex-shrink-0 pt-2 pt-lg-0 mt-2 mt-lg-0">
+            <button type="button" class="btn btn-outline-minimal px-3 py-1 d-flex align-items-center text-nowrap"
+              id="btn-ver-estante" onclick="verEstanteria();" aria-label="Ver mi estante de lectura">
+              <img src="../imgs/libro.png" alt="Estante" class="icon-estante me-1" width="20" height="20">
+              <span class="ms-1">Mi Estante</span>
+              <span class="shelf-badge" id="shelf-counter">0</span>
+            </button>
+            <a href="#catalogo-libros" class="btn btn-dark-minimal px-3 py-1 text-nowrap">
+              Catálogo
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ============================================== -->
+    <!-- 2. ENCABEZADO HERO DE LA SECCIÓN               -->
+    <!-- ============================================== -->
+    <section class="py-5 bg-white border-bottom">
+      <div class="container py-lg-3 text-center text-lg-start">
+        <div class="row align-items-center g-4">
+          <div class="col-lg-7">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb text-xs mb-2 justify-content-center justify-content-lg-start">
+                <li class="breadcrumb-item"><a href="../index.html" class="text-decoration-none text-muted">Inicio</a></li>
+                <li class="breadcrumb-item active text-dark fw-bold" aria-current="page">Catálogo de Libros</li>
+              </ol>
+            </nav>
+            <span class="badge-minimal mb-2">SECCIÓN INFORMATIVA B</span>
+            <h1 class="h2 fw-bold text-dark mb-2">Catálogo &amp; Biblioteca de Lecturas</h1>
+            <p class="text-muted lead fs-6 mb-4">
+              Una cuidada selección de obras literarias recomendadas y valoradas por nuestra comunidad de lectores. Añade los libros a tu estante personal y explora por temáticas literarias.
+            </p>
+            <div class="d-flex flex-wrap gap-2 justify-content-center justify-content-lg-start">
+              <a href="#catalogo-libros" class="btn btn-dark-minimal px-4 py-2">
+                Explorar Catálogo
+              </a>
+              <a href="#proceso-guia" class="btn btn-outline-minimal px-4 py-2">
+                ¿Cómo Funciona?
+              </a>
+            </div>
+          </div>
+          <div class="col-lg-5">
+            <div class="card-minimal p-4 text-center">
+              <img src="../imgs/libro.png" alt="Estante" style="width: 44px; height: 44px; object-fit: contain;" class="d-block mx-auto mb-2">
+              <h2 class="h6 fw-bold text-dark mb-1">Tu Estante Digital</h2>
+              <p class="text-muted text-xs mb-3">
+                Guarda los libros que deseas leer y consúltalos en cualquier momento desde tu navegador.
+              </p>
+              <button type="button" class="btn btn-outline-minimal w-100 py-1" onclick="verEstanteria();">
+                Abrir Mi Estante Ahora
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- 3. GUÍA EXPLICATIVA: DIAGRAMACIÓN DE PROCESO   -->
+    <!-- ============================================== -->
+    <section class="py-5 bg-page border-bottom" id="proceso-guia">
+      <div class="container py-lg-3">
+        <div class="text-center col-lg-7 mx-auto mb-5">
+          <span class="badge-minimal mb-2">GUÍA EXPLICATIVA</span>
+          <h2 class="section-heading h3 mb-2">Cómo Organizar tu Hábito Lector</h2>
+          <p class="text-muted small mb-0">Un proceso simple de 3 pasos para disfrutar cada lectura al máximo.</p>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-md-4">
+            <article class="card-minimal p-4 h-100">
+              <span class="feature-number d-block mb-3">PASO 01 / SELECCIÓN</span>
+              <h3 class="h6 fw-bold mb-2">Elige tu Próxima Historia</h3>
+              <p class="text-muted small mb-0">
+                Filtra el catálogo por géneros, lee opiniones de otros lectores y encuentra un libro que despierte tu curiosidad.
+              </p>
+            </article>
+          </div>
+          <div class="col-md-4">
+            <article class="card-minimal p-4 h-100">
+              <span class="feature-number d-block mb-3">PASO 02 / ESTANTERÍA</span>
+              <h3 class="h6 fw-bold mb-2">Guarda con "+ Quiero leer"</h3>
+              <p class="text-muted small mb-0">
+                Añade el libro a tu estante con un clic. Se almacenará en tu navegador para que nunca olvides tus lecturas pendientes.
+              </p>
+            </article>
+          </div>
+          <div class="col-md-4">
+            <article class="card-minimal p-4 h-100">
+              <span class="feature-number d-block mb-3">PASO 03 / COMUNIDAD</span>
+              <h3 class="h6 fw-bold mb-2">Comparte tus Avances</h3>
+              <p class="text-muted small mb-0">
+                Únete a la sala de debate del club correspondiente o publica tus reseñas y reflexiones en el Muro Social.
+              </p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- 4. CATÁLOGO DE LIBROS RECOMENDADOS             -->
+    <!-- ============================================== -->
+    <section class="py-5 bg-white border-bottom" id="catalogo-libros">
+      <div class="container py-lg-3">
+
+        <header class="mb-5 d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-2">
+          <div>
+            <span class="badge-minimal mb-2">COLECCIÓN</span>
+            <h2 class="section-heading h3 mb-1">Lecturas Recomendadas</h2>
+            <p class="text-muted small mb-0">Haz clic en <strong>+ Quiero leer</strong> para agregarlo a tu estante de lectura.</p>
+          </div>
+        </header>
+
+        <div class="row g-4" id="libros-grid">
+
+          <!-- Libro 1 -->
+          <div class="col-12 col-sm-6 col-lg-3 book-item">
+            <article class="card h-100 book-card-minimal">
+              <div class="book-cover cover-marron text-white p-3">
+                <span class="book-spine" aria-hidden="true"></span>
+                <span class="badge-neutral rounded-pill px-2 py-1 text-xs align-self-start">Clásico</span>
+                <div>
+                  <h3 class="h6 fw-bold mb-1 text-white book-title">Cien Años de Soledad</h3>
+                  <small class="text-white font-italic book-author">G. García Márquez</small>
+                </div>
+              </div>
+              <div class="card-body d-flex flex-column p-3">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                  <div class="d-flex align-items-center gap-1" aria-label="Calificación 4.8 estrellas de 5">
+                    <span class="star-rating" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                    <strong class="small">4.8</strong>
+                  </div>
+                  <span class="badge-minimal py-0 px-2">Club Activo</span>
+                </div>
+                <p class="card-text small text-muted flex-grow-1">
+                  La saga mítica de la familia Buendía en el pueblo de Macondo.
+                </p>
+                <button type="button" class="btn btn-want w-100"
+                  data-book="Cien Años de Soledad"
+                  onclick="toggleEstanteria(this, 'Cien Años de Soledad');">
+                  + Quiero leer
+                </button>
+              </div>
+            </article>
+          </div>
+
+          <!-- Libro 2 -->
+          <div class="col-12 col-sm-6 col-lg-3 book-item">
+            <article class="card h-100 book-card-minimal">
+              <div class="book-cover cover-azul text-white p-3">
+                <span class="book-spine" aria-hidden="true"></span>
+                <span class="badge-neutral rounded-pill px-2 py-1 text-xs align-self-start">Distopía</span>
+                <div>
+                  <h3 class="h6 fw-bold mb-1 text-white book-title">1984</h3>
+                  <small class="text-white font-italic book-author">George Orwell</small>
+                </div>
+              </div>
+              <div class="card-body d-flex flex-column p-3">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                  <div class="d-flex align-items-center gap-1" aria-label="Calificación 4.7 estrellas de 5">
+                    <span class="star-rating" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                    <strong class="small">4.7</strong>
+                  </div>
+                  <span class="badge-minimal py-0 px-2">Club Activo</span>
+                </div>
+                <p class="card-text small text-muted flex-grow-1">
+                  Una poderosa reflexión sobre el control, la información y el Gran Hermano.
+                </p>
+                <button type="button" class="btn btn-want w-100"
+                  data-book="1984"
+                  onclick="toggleEstanteria(this, '1984');">
+                  + Quiero leer
+                </button>
+              </div>
+            </article>
+          </div>
+
+          <!-- Libro 3 -->
+          <div class="col-12 col-sm-6 col-lg-3 book-item">
+            <article class="card h-100 book-card-minimal">
+              <div class="book-cover cover-verde text-white p-3">
+                <span class="book-spine" aria-hidden="true"></span>
+                <span class="badge-neutral rounded-pill px-2 py-1 text-xs align-self-start">Fantasía</span>
+                <div>
+                  <h3 class="h6 fw-bold mb-1 text-white book-title">El Nombre del Viento</h3>
+                  <small class="text-white font-italic book-author">Patrick Rothfuss</small>
+                </div>
+              </div>
+              <div class="card-body d-flex flex-column p-3">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                  <div class="d-flex align-items-center gap-1" aria-label="Calificación 4.5 estrellas de 5">
+                    <span class="star-rating" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9734;</span>
+                    <strong class="small">4.5</strong>
+                  </div>
+                  <span class="badge-minimal py-0 px-2">Club Activo</span>
+                </div>
+                <p class="card-text small text-muted flex-grow-1">
+                  Kvothe narra en primera persona su vida y ascenso a mago legendario.
+                </p>
+                <button type="button" class="btn btn-want w-100"
+                  data-book="El Nombre del Viento"
+                  onclick="toggleEstanteria(this, 'El Nombre del Viento');">
+                  + Quiero leer
+                </button>
+              </div>
+            </article>
+          </div>
+
+          <!-- Libro 4 -->
+          <div class="col-12 col-sm-6 col-lg-3 book-item">
+            <article class="card h-100 book-card-minimal">
+              <div class="book-cover cover-vino text-white p-3">
+                <span class="book-spine" aria-hidden="true"></span>
+                <span class="badge-neutral rounded-pill px-2 py-1 text-xs align-self-start">Misterio</span>
+                <div>
+                  <h3 class="h6 fw-bold mb-1 text-white book-title">La Sombra del Viento</h3>
+                  <small class="text-white font-italic book-author">Carlos Ruiz Zafón</small>
+                </div>
+              </div>
+              <div class="card-body d-flex flex-column p-3">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                  <div class="d-flex align-items-center gap-1" aria-label="Calificación 4.9 estrellas de 5">
+                    <span class="star-rating" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                    <strong class="small">4.9</strong>
+                  </div>
+                  <span class="badge-minimal py-0 px-2">Club Activo</span>
+                </div>
+                <p class="card-text small text-muted flex-grow-1">
+                  Un libro maldito y secretos ocultos en la Barcelona de 1945.
+                </p>
+                <button type="button" class="btn btn-want w-100"
+                  data-book="La Sombra del Viento"
+                  onclick="toggleEstanteria(this, 'La Sombra del Viento');">
+                  + Quiero leer
+                </button>
+              </div>
+            </article>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- 5. TEMÁTICAS Y GÉNEROS LITERARIOS              -->
+    <!-- ============================================== -->
+    <section class="py-5 bg-page border-bottom text-center" id="generos">
+      <div class="container">
+        <span class="badge-minimal mb-2">CATEGORÍAS</span>
+        <h2 class="section-heading h3 mb-2">Explora por Géneros</h2>
+        <p class="text-muted small mb-4">Encuentra tu próximo libro clasificado por temáticas literarias.</p>
+
+        <div class="d-flex flex-wrap justify-content-center gap-2 col-lg-9 mx-auto">
+          <a href="#catalogo-libros" class="genre-pill-minimal">Novela Histórica</a>
+          <a href="#catalogo-libros" class="genre-pill-minimal">Fantasía Épica</a>
+          <a href="#catalogo-libros" class="genre-pill-minimal">Misterio &amp; Thriller</a>
+          <a href="#catalogo-libros" class="genre-pill-minimal">Ciencia Ficción</a>
+          <a href="#catalogo-libros" class="genre-pill-minimal">Romance</a>
+          <a href="#catalogo-libros" class="genre-pill-minimal">Biografías</a>
+          <a href="#catalogo-libros" class="genre-pill-minimal">Filosofía</a>
+          <a href="#catalogo-libros" class="genre-pill-minimal">Desarrollo Personal</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============================================== -->
+  <!-- 6. PIE DE PÁGINA                              -->
+  <!-- ============================================== -->
+  <footer class="py-5 bg-page border-top">
+    <div class="container">
+      <div class="row g-4 mb-4">
+
+        <div class="col-lg-5">
+          <a class="d-flex align-items-center gap-2 logo-brand mb-2 text-decoration-none" href="../index.html">
+            <img src="../imgs/libro-abierto.png" alt="Logo EntreHojas" class="logo-img" width="28" height="28">
+            <span>Entre<span class="text-accent">Hojas</span></span>
+          </a>
+          <p class="text-muted small mb-0 col-lg-10">
+            Comunidad digital para descubrir, organizar y compartir lecturas en clubs organizados capítulo a capítulo.
+          </p>
+        </div>
+
+        <div class="col-6 col-lg-2 offset-lg-1">
+          <h4 class="h6 fw-bold mb-3">Navegación</h4>
+          <ul class="list-unstyled small d-flex flex-column gap-2 text-muted">
+            <li><a href="../index.html" class="text-decoration-none text-muted">Inicio</a></li>
+            <li><a href="clubs.html" class="text-decoration-none text-muted">Clubs Activos</a></li>
+            <li><a href="libros.html" class="text-accent fw-bold text-decoration-none">Catálogo de Libros</a></li>
+            <li><a href="comunidad.html" class="text-decoration-none text-muted">Comunidad</a></li>
+          </ul>
+        </div>
+
+        <div class="col-6 col-lg-2">
+          <h4 class="h6 fw-bold mb-3">Comunidad</h4>
+          <ul class="list-unstyled small d-flex flex-column gap-2 text-muted">
+            <li><a href="comunidad.html" class="text-decoration-none text-muted">Muro Social</a></li>
+            <li><a href="comunidad.html" class="text-decoration-none text-muted">Mi Perfil</a></li>
+            <li><a href="../index.html#newsletter-sec" class="text-decoration-none text-muted">Boletín Semanal</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-2">
+          <h4 class="h6 fw-bold mb-3">EntreHojas</h4>
+          <ul class="list-unstyled small d-flex flex-column gap-2 text-muted">
+            <li><a href="#" class="text-decoration-none text-muted">Sobre nosotros</a></li>
+            <li><a href="#" class="text-decoration-none text-muted">Privacidad</a></li>
+            <li><a href="#" class="text-decoration-none text-muted">Términos</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="border-top pt-3 d-flex flex-column flex-sm-row justify-content-between align-items-center text-muted small gap-2">
+        <div>&copy; 2026 EntreHojas. Todos los derechos reservados.</div>
+        <div class="d-flex gap-3">
+          <a href="#" class="text-muted text-decoration-none">Volver arriba &uarr;</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Panel lateral Offcanvas "Mi Estante" -->
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasEstante" aria-labelledby="offcanvasEstanteLabel">
+    <div class="offcanvas-header border-bottom">
+      <h5 class="offcanvas-title fw-bold d-flex align-items-center gap-2" id="offcanvasEstanteLabel">
+        <img src="../imgs/libro.png" alt="Estante" class="icon-estante" width="22" height="22">
+        <span>Mi Estante de Lectura</span>
+      </h5>
+      <button type="button" class="btn-close shadow-none" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
+    </div>
+    <div class="offcanvas-body d-flex flex-column justify-content-between">
+      <div id="estante-items-list" class="d-flex flex-column gap-3"></div>
+      <div class="pt-3 border-top mt-auto">
+        <small class="text-muted d-block text-center mb-2">Tus libros se guardan automáticamente en tu navegador.</small>
+        <button type="button" class="btn btn-outline-minimal w-100 py-1" data-bs-dismiss="offcanvas">
+          Seguir explorando
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notificación Toast Minimalista -->
+  <div class="toast-minimal" id="minimal-toast" role="alert" aria-live="assertive">
+    <span id="toast-message">Notificación</span>
+  </div>
+
+  <!-- Bootstrap 5.3 Bundle con JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Lógica Interactiva -->
+  <script>
+    const STORAGE_KEY_SHELF = 'entrehojas_user_shelf';
+    let estanteItems = [];
+
+    try {
+      const savedShelf = localStorage.getItem(STORAGE_KEY_SHELF);
+      if (savedShelf) estanteItems = JSON.parse(savedShelf);
+    } catch (e) {
+      console.warn('LocalStorage error:', e);
+    }
+
+    function mostrarToast(mensaje) {
+      const toast = document.getElementById('minimal-toast');
+      const toastMsg = document.getElementById('toast-message');
+      if (!toast || !toastMsg) return;
+      toastMsg.textContent = mensaje;
+      toast.classList.add('show');
+      clearTimeout(window.toastTimer);
+      window.toastTimer = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    function sincronizarEstante() {
+      const counterEl = document.getElementById('shelf-counter');
+      if (counterEl) counterEl.textContent = estanteItems.length;
+
+      document.querySelectorAll('#libros-grid .btn-want').forEach(btn => {
+        const bookTitle = btn.getAttribute('data-book');
+        if (estanteItems.includes(bookTitle)) {
+          btn.classList.add('added');
+          btn.innerHTML = '&#10003; En tu estante';
+        } else {
+          btn.classList.remove('added');
+          btn.innerHTML = '+ Quiero leer';
+        }
+      });
+    }
+
+    function toggleEstanteria(btn, bookTitle) {
+      if (estanteItems.includes(bookTitle)) {
+        estanteItems = estanteItems.filter(item => item !== bookTitle);
+        btn.classList.remove('added');
+        btn.innerHTML = '+ Quiero leer';
+        mostrarToast(`"${bookTitle}" se quitó de tu estante.`);
+      } else {
+        estanteItems.push(bookTitle);
+        btn.classList.add('added');
+        btn.innerHTML = '&#10003; En tu estante';
+        mostrarToast(`¡"${bookTitle}" guardado en tu estante!`);
+      }
+      try {
+        localStorage.setItem(STORAGE_KEY_SHELF, JSON.stringify(estanteItems));
+      } catch (e) {}
+      sincronizarEstante();
+    }
+
+    function verEstanteria() {
+      const listContainer = document.getElementById('estante-items-list');
+      if (!listContainer) return;
+
+      if (estanteItems.length === 0) {
+        listContainer.innerHTML = `
+          <div class="text-center py-5 text-muted">
+            <img src="../imgs/libro.png" alt="" style="width: 40px; height: 40px; opacity: 0.6;" class="d-block mx-auto mb-2">
+            <p class="small mb-1">Tu estante de lectura está vacío.</p>
+            <small class="text-xs">Haz clic en "+ Quiero leer" en cualquier libro del catálogo.</small>
+          </div>
+        `;
+      } else {
+        listContainer.innerHTML = estanteItems.map(book => `
+          <div class="d-flex justify-content-between align-items-center p-2 rounded-2 bg-page border">
+            <div class="d-flex align-items-center gap-2 overflow-hidden">
+              <span class="text-accent" aria-hidden="true">&#128214;</span>
+              <strong class="small text-truncate">${book}</strong>
+            </div>
+            <button type="button" class="btn btn-sm btn-link text-danger text-decoration-none p-0 px-2"
+              onclick="quitarDeEstante('${book}');" title="Quitar de mi estante">
+              &times;
+            </button>
+          </div>
+        `).join('');
+      }
+
+      const offcanvasEl = document.getElementById('offcanvasEstante');
+      if (offcanvasEl) {
+        bootstrap.Offcanvas.getOrCreateInstance(offcanvasEl).show();
+      }
+    }
+
+    function quitarDeEstante(bookTitle) {
+      estanteItems = estanteItems.filter(item => item !== bookTitle);
+      try {
+        localStorage.setItem(STORAGE_KEY_SHELF, JSON.stringify(estanteItems));
+      } catch (e) {}
+      sincronizarEstante();
+      verEstanteria();
+      mostrarToast(`"${bookTitle}" eliminado de tu estante.`);
+    }
+
+    function buscarLibro() {
+      const q = (document.getElementById('input-busqueda')?.value || '').toLowerCase().trim();
+      const items = document.querySelectorAll('#libros-grid .book-item');
+      let matches = 0;
+      items.forEach(item => {
+        const text = item.textContent.toLowerCase();
+        if (!q || text.includes(q)) {
+          item.classList.remove('d-none');
+          matches++;
+        } else {
+          item.classList.add('d-none');
+        }
+      });
+      if (q) mostrarToast(`Catálogo: ${matches} libro(s) encontrado(s).`);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      sincronizarEstante();
+    });
+  </script>
+</body>
+</html>
